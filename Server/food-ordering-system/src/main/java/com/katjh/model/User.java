@@ -28,7 +28,7 @@ public class User {
 
 
 //    @Enumerated(EnumType.STRING) // copliot 제안받아 작성한 부분
-    private USER_ROLE role;
+    private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
 
     // @JsonIgnore: Fetch 할때마다 orders List가 필요한 것이 아니므로.
     @JsonIgnore
