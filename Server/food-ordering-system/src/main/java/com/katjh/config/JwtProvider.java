@@ -70,7 +70,7 @@ public class JwtProvider {
      * @param jwt JWT 문자열
      * @return JWT에서 추출한 이메일
      */
-    public String getEmailFromToken(String jwt){
+    public String getEmailFromJwtToken(String jwt){
         jwt = jwt.substring(7);
         Claims claims = Jwts
                 .parser()

@@ -69,6 +69,7 @@ public class AuthController {
         cart.setCustomer(savedUser);
         cartRepository.save(cart);
 
+        // 회원가입 완료 즉시 token 동시 생성.
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -86,16 +87,19 @@ public class AuthController {
     public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest req){
         String username = req.getEmail();
         String password = req.getPassword();
-        
+
+        // loadUserByUsername(), UsernamePasswordAuthenticationToken() 를 통해 authentication(Principal, Credentials, Authorities)를 얻음
         Authentication authentication = authenticate(username, password);
 
+        // get authorities
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.isEmpty()? null : authorities.iterator().next().getAuthority();
 
+        // generate token
         String jwt = jwtProvider.generateToken(authentication);
 
+        // Response
         AuthResponse authResponse = new AuthResponse();
-
         authResponse.setJwt(jwt);
         authResponse.setMessage("Login successful");
         authResponse.setRole(USER_ROLE.valueOf(role));
@@ -103,6 +107,9 @@ public class AuthController {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
+    /**
+     * retrieve userDetails using loadUserByUsername
+     * */
     private Authentication authenticate(String username, String password) {
         UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
 
@@ -112,6 +119,7 @@ public class AuthController {
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
             throw new BadCredentialsException("Invalid username or password");
         }
+        // Principal (주체), Credentials(자격 증명), Authorities
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }

@@ -1,6 +1,7 @@
 package com.katjh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katjh.dto.RestaurantDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +25,8 @@ public class User {
 
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
 
 //    @Enumerated(EnumType.STRING) // copliot 제안받아 작성한 부분
     private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
