@@ -1,4 +1,4 @@
-package com.katjh.request;
+package com.katjh.repository;
 
 import com.katjh.model.Food;
 import org.springframework.data.jpa.repository.JpaRepository;

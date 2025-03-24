@@ -4,7 +4,7 @@ import com.katjh.model.Category;
 import com.katjh.model.Food;
 import com.katjh.model.Restaurant;
 import com.katjh.request.CreateFoodRequest;
-import com.katjh.request.FoodRepository;
+import com.katjh.repository.FoodRepository;
 import com.katjh.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
