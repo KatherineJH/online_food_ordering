@@ -37,7 +37,9 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public CartItem addItemToCart(AddCartItemRequest request, String token) throws Exception {
-
+//        // token이 아닌 Long userId로 받아서 사용해도 controller에서 token을 받아서 사용하기 때문에 userId를 바로 받아서 사용해도 된다.
+//        Food food = foodService.findFoodById(request.getFoodId());
+//        Cart cart = cartRepository.findByCustomerId(userId);
         User user = userService.findUserByJwtToken(token);
         Food food = foodService.findFoodById(request.getFoodId());
         Cart cart = cartRepository.findByCustomerId(user.getId());
@@ -47,8 +49,8 @@ public class CartServiceImpl implements CartService {
                 int newQuantity = cartItem.getQuantity() + request.getQuantity();
                 return updateCartItemQuantity(cartItem.getId(), newQuantity);
             }
-        } // if the food is not in the cart, create a new cart item
-
+        }
+        // Else: if the food is not in the cart, create a new cart item
         CartItem newCartItem = new CartItem();
         newCartItem.setFood(food);
         newCartItem.setCart(cart);
@@ -118,16 +120,15 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart findCartByUserId(String jwt) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        return cartRepository.findByCustomerId(user.getId());
+    public Cart findCartByUserId(Long userId) throws Exception {
+        Cart cart = cartRepository.findByCustomerId(userId);
+        cart.setTotal(calculateCartTotals(cart));
+        return cart;
     }
 
     @Override
-    public Cart clearCart(String jwt) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        Cart cart = findCartByUserId(jwt);
-
+    public Cart clearCart(Long userId) throws Exception {
+        Cart cart = findCartByUserId(userId);
         cart.getItem().clear();
         return cartRepository.save(cart);
     }

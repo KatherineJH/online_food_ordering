@@ -3,9 +3,11 @@ package com.katjh.controller;
 
 import com.katjh.model.Cart;
 import com.katjh.model.CartItem;
+import com.katjh.model.User;
 import com.katjh.request.AddCartItemRequest;
 import com.katjh.request.UpdateCartItemRequest;
 import com.katjh.service.CartService;
+import com.katjh.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     private final CartService cartService;
+    private final UserService userService;
 
     /**
      * Add "a" new item to the cart
@@ -48,13 +51,15 @@ public class CartController {
 
     @PutMapping("/cart/clear")
     public ResponseEntity<Cart> clearCart(@RequestHeader("Authorization") String token) throws Exception {
-        Cart cart = cartService.clearCart(token);
+        User user = userService.findUserByJwtToken(token);
+        Cart cart = cartService.clearCart(user.getId());
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @GetMapping("/cart")
     public ResponseEntity<Cart> findUserCart(@RequestHeader("Authorization") String token) throws Exception {
-        Cart cart = cartService.findCartByUserId(token);
+        User user = userService.findUserByJwtToken(token);
+        Cart cart = cartService.findCartByUserId(user.getId());
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 }
