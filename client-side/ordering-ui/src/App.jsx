@@ -3,8 +3,8 @@ import "./App.css";
 import { Navbar } from "./component/navbar/Navbar";
 import { DarkTheme } from "./theme/DarkTheme";
 import Home from "./component/home/Home";
-import MultiItemCarousel from "./component/home/MultiItemCarousel";
 import RestaurantDetails from "./component/restaurant/RestaurantDetails";
+import Cart from "./component/cart/Cart";
 
 function App() {
   return (
@@ -12,7 +12,9 @@ function App() {
       <ThemeProvider theme={DarkTheme}>
         <CssBaseline />
         <Navbar />
-        <Home />
+        {/* <Home /> */}
+        {/* <RestaurantDetails /> */}
+        <Cart />
       </ThemeProvider>
     </>
   );

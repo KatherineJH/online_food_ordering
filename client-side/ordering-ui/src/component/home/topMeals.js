@@ -26,8 +26,8 @@ export const topMeals = [
   },
   {
     image:
-      "https://images.pexels.com/photos/3616956/pexels-photo-3616956.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    title: "Burger",
+      "https://www.andy-cooks.com/cdn/shop/articles/20240207034607-andy-20cooks-20-20gimbap.jpg?v=1707442317&width=1600",
+    title: "Gimbap",
   },
   {
     image:

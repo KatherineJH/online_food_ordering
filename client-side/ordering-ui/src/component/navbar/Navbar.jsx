@@ -7,7 +7,7 @@ import "./Navbar.css";
 
 export const Navbar = () => {
   return (
-    <div className="px-5 z-50 py-[.8rem] bg-[#85a2ed] lg:px-20 flex justify-between">
+    <div className="px-5 z-50 py-[1.8rem] bg-[#a885ed] lg:px-20 flex justify-between">
       <div className="lg:mr-10 cursor-pointer flex items-center space-x-4">
         <li className="logo font-semibold text-white text-2xl">Vibrant Fresh Grub</li>
       </div>
