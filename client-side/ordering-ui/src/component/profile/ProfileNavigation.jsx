@@ -8,6 +8,8 @@ import TodayIcon from "@mui/icons-material/Today";
 import LogoutIcon from "@mui/icons-material/Logout";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../state/authentication/Action";
 
 const menu = [
   { titile: "Orders", icon: <ShoppingBasketIcon /> },
@@ -23,8 +25,12 @@ const ProfileNavigation = ({ open, handleClose }) => {
   //1080px 이하 -> temporary
   const isSmallScreen = useMediaQuery("(max-width:900px)");
   const navigate = useNavigate();
+  const disptch = useDispatch();
   const handleNavigate = (item) => {
-    navigate(`/my-profile/${item.titile.toLowerCase()}`);
+    if (item.titile === "Logout") {
+      disptch(logout());
+      navigate("/");
+    } else navigate(`/my-profile/${item.titile.toLowerCase()}`);
   };
 
   return (
