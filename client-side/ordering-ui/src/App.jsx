@@ -5,16 +5,21 @@ import { DarkTheme } from "./theme/DarkTheme";
 import Home from "./component/home/Home";
 import RestaurantDetails from "./component/restaurant/RestaurantDetails";
 import Cart from "./component/cart/Cart";
+import Profile from "./component/profile/Profile";
+import CustomerRouter from "./Routers/CustomerRouter";
+import Auth from "./component/auth/Auth";
 
 function App() {
   return (
     <>
       <ThemeProvider theme={DarkTheme}>
         <CssBaseline />
-        <Navbar />
+        {/* <Navbar /> */}
         {/* <Home /> */}
         {/* <RestaurantDetails /> */}
-        <Cart />
+        {/* <Cart /> */}
+        {/* <Profile /> */}
+        <CustomerRouter />
       </ThemeProvider>
     </>
   );

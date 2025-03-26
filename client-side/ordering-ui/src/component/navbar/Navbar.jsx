@@ -1,15 +1,19 @@
-import { Avatar, Badge, IconButton } from "@mui/material";
+import { Avatar, Badge, Box, IconButton } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { purple } from "@mui/material/colors";
-import { ShoppingCart } from "@mui/icons-material";
+import { Person, ShoppingCart } from "@mui/icons-material";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   return (
-    <div className="px-5 z-50 py-[1.8rem] bg-[#a885ed] lg:px-20 flex justify-between">
+    <Box className="px-5 sticky top-0 z-50 py-[1.8rem] bg-[#a885ed] lg:px-20 flex justify-between">
       <div className="lg:mr-10 cursor-pointer flex items-center space-x-4">
-        <li className="logo font-semibold text-white text-2xl">Vibrant Fresh Grub</li>
+        <li className="logo font-semibold text-white text-2xl">
+          Vibrant Fresh Grub
+        </li>
       </div>
       <div className="flex items-center space-x-2 lg:space-x-10">
         <div className="">
@@ -18,7 +22,13 @@ export const Navbar = () => {
           </IconButton>
         </div>
         <div className="">
-          <Avatar sx={{ bgcolor: "white", color: purple.A700 }}>K</Avatar>
+          {false ? (
+            <Avatar sx={{ bgcolor: "white", color: purple.A700 }}>K</Avatar>
+          ) : (
+            <IconButton onClick={()=>navigate("/account/login")}>
+              <Person />
+            </IconButton>
+          )}
         </div>
         <div className="">
           <IconButton>
@@ -28,6 +38,6 @@ export const Navbar = () => {
           </IconButton>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
