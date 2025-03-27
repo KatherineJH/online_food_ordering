@@ -9,8 +9,11 @@ import {
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantById, getRestaurantsCategory } from "../state/restaurant/Action";
 
 const categories = [
   "All",
@@ -32,6 +35,12 @@ const foodTypes = [
 const menu = [1, 1, 1, 1, 1, 1];
 
 const RestaurantDetails = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { auth, restaurant } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+  const { id, city } = useParams();
+
   const [foodType, setFoodType] = useState("all"); // Food Type 상태
   const [foodCategory, setFoodCategory] = useState("All"); // Food Category 상태
 
@@ -44,6 +53,12 @@ const RestaurantDetails = () => {
     setFoodCategory(e.target.value);
     console.log(e.target.value, e.target.name);
   };
+console.log("restaurant", restaurant);
+
+  useEffect(() => {
+    dispatch(getRestaurantById({ jwt, id }));
+    dispatch(getRestaurantsCategory({ jwt, id }));
+  }, []);
 
   return (
     <div className="px-5 lg:px-20">
@@ -57,7 +72,7 @@ const RestaurantDetails = () => {
             <Grid item xs={12}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={restaurant.restaurant?.images[0]}
                 alt="First Image"
               />
             </Grid>
@@ -66,27 +81,24 @@ const RestaurantDetails = () => {
             <Grid item xs={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={restaurant.restaurant?.images[1]}
                 alt="Second Image"
               />
             </Grid>
             <Grid item xs={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://images.pexels.com/photos/1058277/pexels-photo-1058277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={restaurant.restaurant?.images[2]}
                 alt="Third Image"
               />
             </Grid>
           </Grid>
         </div>
         <div className="pt-3 pb-5">
-          <h1 className="text-4xl font-semibold">Korean Delivery Cuisine</h1>
+          <h1 className="text-4xl font-semibold">{restaurant.restaurant?.name}</h1>
 
           <p className="text-gray-400 mt-1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
-            quia molestiae quisquam, deserunt modi reiciendis aliquid ratione
-            exercitationem earum eligendi distinctio ut ducimus possimus officia
-            omnis quasi voluptatem accusantium temporibus.
+            {restaurant.restaurant?.description}
           </p>
           <p className="text-gray-400 flex items-center gap-3">
             <CalendarMonthIcon />

@@ -45,4 +45,6 @@ public class User {
     // CascadeType.ALL: 해당 User가 삭제될 때, 연관된 Address 엔티티도 삭제된다.
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
+
+    private String status;
 }

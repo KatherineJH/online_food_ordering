@@ -1,4 +1,5 @@
 import axios from "axios";
+import { api, API_URL } from "../../config/Api";
 import {
   ADD_TO_FAVORITE_FAILURE,
   ADD_TO_FAVORITE_REQUEST,
@@ -14,7 +15,6 @@ import {
   ADD_TO_FAVORITE_SUCCESS,
   LOGIN_REQUEST,
 } from "./ActionType";
-import { api, API_URL } from "../../config/api";
 
 export const registerUser = (reqData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
@@ -67,12 +67,11 @@ export const getUser = (jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    dispatch({ type: GET_USER_SUCCESS, payload: data });
     console.log("user profile", data);
+    dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: GET_USER_FAILURE, payload: error });
-
     console.log("error", error);
+    dispatch({ type: GET_USER_FAILURE, payload: error });
   }
 };
 

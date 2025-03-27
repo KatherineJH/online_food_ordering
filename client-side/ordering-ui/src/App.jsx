@@ -14,8 +14,9 @@ import { getUser } from "./component/state/authentication/Action";
 
 function App() {
   const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
   const {auth} = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+
   useEffect(() => {
     dispatch(getUser(auth.jwt || jwt));
   }, [auth.jwt]);
