@@ -25,6 +25,7 @@ public class IngredientCategory {
     @ManyToOne
     private Restaurant restaurant; // single restaurant can have multiple categories
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<IngredientItem> ingredients = new ArrayList<>();// single IngredientCategory can have multiple ingredients
 }

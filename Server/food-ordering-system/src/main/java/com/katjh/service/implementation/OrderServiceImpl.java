@@ -60,26 +60,37 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderItem> orderItems = new ArrayList<>();
 
-        for (CartItem cartItem : cart.getItem()){
+        // 주문 항목 리스트에 아이템을 추가
+        for (CartItem cartItem : cart.getItem()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setFood(cartItem.getFood());
             orderItem.setIngredients(cartItem.getIngredients());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setTotalPrice(cartItem.getTotalPrice());
 
-            OrderItem savedOrderItem = orderItemRepository.save(orderItem);
-            orderItems.add(orderItem);
+            orderItem.setOrder(createdOrder);  // 주문 항목에 주문을 연결
+            orderItems.add(orderItem);  // 리스트에 추가
         }
 
+        // 총 가격 계산
         Long totalPrice = cartService.calculateCartTotals(cart);
 
-        createdOrder.setItems(orderItems);
-        createdOrder.setTotalPrice(totalPrice);
+        createdOrder.setItems(orderItems);  // 주문 항목 설정
+        createdOrder.setTotalPrice(totalPrice);  // 총 가격 설정
 
+        // 주문 저장
         Order savedOrder = orderRepository.save(createdOrder);
+
+        // 레스토랑의 주문 리스트에 추가
         restaurant.getOrders().add(savedOrder);
 
-        return createdOrder;
+        // 주문 항목들을 저장
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOrder(savedOrder);  // 실제로 DB에 저장된 주문 객체를 설정
+            orderItemRepository.save(orderItem);  // 주문 항목 저장
+        }
+
+        return savedOrder;  // 생성된 주문 반환
     }
 
     @Override
@@ -122,7 +133,6 @@ public class OrderServiceImpl implements OrderService {
         if(optionalOrder.isEmpty()){
             throw new Exception("Order not found");
         }
-        // 7:48:30
         return optionalOrder.get();
     }
 }

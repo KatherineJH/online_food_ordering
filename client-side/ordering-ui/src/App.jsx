@@ -11,14 +11,16 @@ import Auth from "./component/auth/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUser } from "./component/state/authentication/Action";
+import { findCart } from "./component/state/cart/Action";
 
 function App() {
   const dispatch = useDispatch();
-  const {auth} = useSelector((store) => store);
+  const { auth } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
     dispatch(getUser(auth.jwt || jwt));
+    dispatch(findCart(jwt));
   }, [auth.jwt]);
   return (
     <>

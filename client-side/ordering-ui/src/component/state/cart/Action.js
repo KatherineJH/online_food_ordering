@@ -22,32 +22,37 @@ import {
 
 export const findCart = (token) => {
   return async (dispatch) => {
-    dispatch({type:FIND_CART_REQUEST}); 
+    dispatch({ type: FIND_CART_REQUEST });
     try {
-      const response = await api.get(`/api/cart/`, {
+      const response = await api.get(`/api/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      dispatch({type:FIND_CART_SUCCESS, payload:response});
+      console.log("my cart: ", response.data);
+
+      dispatch({ type: FIND_CART_SUCCESS, payload: response.data });
     } catch (error) {
-      dispatch({type:FIND_CART_FAILURE, payload:error});
+      console.log("my cart error: ", error);
+      dispatch({ type: FIND_CART_FAILURE, payload: error });
     }
   };
 };
 
 export const getAllCartItems = (reqData) => {
   return async (dispatch) => {
-    dispatch({type:GET_ALL_CART_ITEMS_REQUEST});
+    dispatch({ type: GET_ALL_CART_ITEMS_REQUEST });
     try {
       const response = await api.get(`/api/carts/${reqData.cartId}/items`, {
         headers: {
           Authorization: `Bearer ${reqData.token}`,
         },
       });
-      dispatch({type:GET_ALL_CART_ITEMS_SUCCESS, payload:response.data});
+      console.log("my cart items: ", response.data);
+      dispatch({ type: GET_ALL_CART_ITEMS_SUCCESS, payload: response.data });
     } catch (error) {
-      dispatch({type:GET_ALL_CART_ITEMS_FAILURE, payload:error});
+      dispatch({ type: GET_ALL_CART_ITEMS_FAILURE, payload: error });
+      console.log("my cart items error: ", error);
     }
   };
 };
@@ -128,4 +133,3 @@ export const clearCartAction = () => {
     }
   };
 };
-

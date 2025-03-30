@@ -33,14 +33,16 @@ public class Order {
 
     private String orderStatus;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @ManyToOne
     private Address deliveryAddress; // single address can have multiple orders
 
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items; // single order can have multiple items
 
+//    @OneToOne
 //    private Payment payment;
 
     private int totalItem;

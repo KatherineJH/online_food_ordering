@@ -9,12 +9,15 @@ const AddressCard = ({ item, showButton, handelSelectAddress }) => {
       <HomeIcon />
       <div className="space-y-3 text-gray-400">
         <h1 className="font-semibold text-lg text-white">Home</h1>
-        <p>14, Seocho-daero 74-gil, Seocho-gu, Seoul, Republic of Korea</p>
+        <p>
+          {item.streetAddress}, {item.postalCode}, {item.state}, {item.country}
+          {/* {`${address?.streetAddress} ${address?.city} ${address?.state} ${address?.zipCode}`} */}
+        </p>
         {showButton && (
           <Button
             variant="outlined"
             fullWidth
-            onClick={() => handelSelectAddress(item)}  // item을 전달하여 주소를 선택하도록
+            onClick={() => handelSelectAddress(item)} // item을 전달하여 주소를 선택하도록
           >
             Select
           </Button>

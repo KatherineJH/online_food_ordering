@@ -13,6 +13,8 @@ import AddressCard from "./AddressCard";
 import AddLocationIcon from "@mui/icons-material/AddLocation";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder } from "../state/order/Action";
 
 export const style = {
   position: "absolute",
@@ -40,8 +42,6 @@ const validationSchema = Yup.object({
   city: Yup.string().required("City name is required"),
 });
 
-const items = [1, 1, 1];
-
 const Cart = () => {
   const createOrderUsingSelectedAddress = (selectedItem) => {
     console.log("Selected Address:", selectedItem);
@@ -49,16 +49,34 @@ const Cart = () => {
   const handelAddNewAddress = () => setOpen(true);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
+  const { cart, auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
   const handleSubmit = (values) => {
+    const data = {
+      jwt: localStorage.getItem("jwt"),
+      order: {
+        restaurantId: cart.cart?.item[0].food?.restaurant.id,
+        deliveryAddress: {
+          fullName: auth.user?.fullName,
+          streetAddress: values.streetAddress,
+          city: values.city,
+          state: values.state,
+          postalCode: values.postalCode,
+          country: "South Korea",
+        },
+      },
+    };
+    dispatch(createOrder(data))
     console.log("Form Submitted", values);
   };
+
 
   return (
     <>
       <main className="lg:flex justify-between">
         <section className="lg:w=[30%] space-y-6 lg:min-h-screen pt-10">
-          {items.map((item) => (
-            <CartItem key={item} />
+          {cart.cart?.item.map((item) => (
+            <CartItem item={item} />
           ))}
           <Divider />
           <div className="billDetails px-5 text-sm">
@@ -66,7 +84,7 @@ const Cart = () => {
             <div className="space-y-3">
               <div className="flex justify-between text-gray-400">
                 <p>Item Total(inc VAT)</p>
-                <p>₩10500</p>
+                <p>₩{cart.cart?.total}</p>
               </div>
               <div className="flex justify-between text-gray-400">
                 <p>Deliver Fee</p>
@@ -75,7 +93,7 @@ const Cart = () => {
               <Divider />
               <div className="flex justify-between text-gray-400">
                 <p>Total Price</p>
-                <p>₩15500</p>
+                <p>₩{cart.cart?.total + 5000}</p>
               </div>
             </div>
           </div>
@@ -87,7 +105,7 @@ const Cart = () => {
               Choose Delivery Address
             </h1>
             <div className="flex gap-5 flex-wrap justify-center">
-              {[1, 1, 1, 1].map((item, index) => (
+              {auth.user?.addresses.map((item, index) => (
                 <AddressCard
                   key={index}
                   handelSelectAddress={createOrderUsingSelectedAddress}

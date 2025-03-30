@@ -4,6 +4,7 @@ import MultiItemCarousel from "./MultiItemCarousel";
 import { RestaurantCard } from "../restaurant/RestaurantCard";
 import { useDispatch, useSelector } from "react-redux";
 import { gettAllRestaurantsAction } from "../state/restaurant/Action";
+import { findCart } from "../state/cart/Action";
 
 const Home = () => {
   const dispatch = useDispatch();

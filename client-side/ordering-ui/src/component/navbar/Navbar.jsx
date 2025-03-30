@@ -8,19 +8,22 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const Navbar = () => {
-  const { auth } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
   const navigate = useNavigate();
-  const handleClickAvatar=()=>{
-    if(auth.user?.role==="ROLE_CUSTOMER"){
-      navigate("/my-profile")
-    }else{
-      navigate("/admin/restaurant")
+  const handleClickAvatar = () => {
+    if (auth.user?.role === "ROLE_CUSTOMER") {
+      navigate("/my-profile");
+    } else {
+      navigate("/admin/restaurant");
     }
-  }
+  };
   return (
     <Box className="px-5 sticky top-0 z-50 py-[1.8rem] bg-[#a885ed] lg:px-20 flex justify-between">
       <div className="lg:mr-10 cursor-pointer flex items-center space-x-4">
-        <li onClick={()=>navigate("/")} className="logo font-semibold text-white text-2xl">
+        <li
+          onClick={() => navigate("/")}
+          className="logo font-semibold text-white text-2xl"
+        >
           Vibrant Fresh Grub
         </li>
       </div>
@@ -32,7 +35,10 @@ export const Navbar = () => {
         </div>
         <div className="">
           {auth.user ? (
-            <Avatar onClick={handleClickAvatar} sx={{ bgcolor: "white", color: purple.A700 }}>
+            <Avatar
+              onClick={handleClickAvatar}
+              sx={{ bgcolor: "white", color: purple.A700 }}
+            >
               {auth.user?.fullName[0].toUpperCase()}
             </Avatar>
           ) : (
@@ -42,8 +48,8 @@ export const Navbar = () => {
           )}
         </div>
         <div className="">
-          <IconButton>
-            <Badge color="secondary" badgeContent={3}>
+          <IconButton onClick={() => navigate("/cart")}>
+            <Badge color="secondary" badgeContent={cart.cart?.item?.length || 0}>
               <ShoppingCart sx={{ fontSize: "1.5rem" }} />
             </Badge>
           </IconButton>

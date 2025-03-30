@@ -30,20 +30,20 @@ export const createMenuItem = ({ menu, jwt }) => {
         },
       });
       console.log("created menu ", data);
-      dispatch({ type: CREATE_MENU_ITEM_SUCCESS, payload:data });
+      dispatch({ type: CREATE_MENU_ITEM_SUCCESS, payload: data });
     } catch (error) {
       console.log("catch error ", error);
-      dispatch({ type: CREATE_MENU_ITEM_FAILURE, payload:error });
+      dispatch({ type: CREATE_MENU_ITEM_FAILURE, payload: error });
     }
   };
 };
 
 export const getMenuItemsByRestaurantId = (reqData) => {
   return async (dispatch) => {
-    dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST});
+    dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
     try {
       const { data } = await api.get(
-        `/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonveg=${reqData.nonveg}
+        `/api/food/restaurant/${reqData.id}?vegetarian=${reqData.vegetarian}&nonVegetarian=${reqData.nonVegetarian}
         &seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`,
         {
           headers: {
@@ -52,9 +52,16 @@ export const getMenuItemsByRestaurantId = (reqData) => {
         }
       );
       console.log("menu item by restaurants ", data);
-      dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload:data});
+      dispatch({
+        type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS,
+        payload: data,
+      });
     } catch (error) {
-      dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE, payload:error});
+      console.log("catch error ", error);
+      dispatch({
+        type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,
+        payload: error,
+      });
     }
   };
 };

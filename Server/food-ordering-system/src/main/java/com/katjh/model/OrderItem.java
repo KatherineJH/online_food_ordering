@@ -1,5 +1,6 @@
 package com.katjh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class OrderItem {
     private Long totalPrice;
 
     private List<String> ingredients;
+
+    @ManyToOne
+    @JsonIgnore
+    private Order order;
 }
 
 
