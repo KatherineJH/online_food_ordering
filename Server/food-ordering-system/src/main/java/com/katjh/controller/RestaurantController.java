@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/api/restaurant")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;

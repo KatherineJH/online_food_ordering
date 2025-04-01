@@ -45,7 +45,7 @@ export const gettAllRestaurantsAction = (token) => {
   return async (dispatch) => {
     dispatch({ type: GET_ALL_RESTAURANTS_REQUEST });
     try {
-      const { data } = await api.get("/api/restaurants", {
+      const { data } = await api.get("/api/restaurant", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +63,7 @@ export const getRestaurantById = (reqData) => {
   return async (dispatch) => {
     dispatch({ type: GET_RESTAURANTS_BY_ID_REQUEST });
     try {
-      const { data } = await api.get(`/api/restaurants/${reqData.id}`, {
+      const { data } = await api.get(`/api/restaurant/${reqData.id}`, {
         headers: {
           Authorization: `Bearer ${reqData.jwt}`,
         },

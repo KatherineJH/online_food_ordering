@@ -81,7 +81,7 @@ export const addToFavorite =
     dispatch({ type: ADD_TO_FAVORITE_REQUEST });
     try {
       const { data } = await axios.put(
-        `${API_URL}/api/restaurants/${restaurantId}/add-favorite`,
+        `${API_URL}/api/restaurant/${restaurantId}/add-favorite`,
         {},
         {
           headers: {

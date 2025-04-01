@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { getUser } from "./component/state/authentication/Action";
 import { findCart } from "./component/state/cart/Action";
 import Routers from "./Routers/Routers";
+import { getRestaurantByUserId } from "./component/state/restaurant/Action";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,14 @@ function App() {
     dispatch(getUser(auth.jwt || jwt));
     dispatch(findCart(jwt));
   }, [auth.jwt]);
+
+  useEffect(() => {
+    dispatch(getRestaurantByUserId(auth.jwt || jwt));
+    // if (auth.user?.role == "ROLE_RESTAURANT_OWNER") {
+    //   dispatch(getRestaurantByUserId(auth.jwt || jwt));
+    // }
+  }, [auth.user]);
+
   return (
     <>
       <ThemeProvider theme={DarkTheme}>

@@ -57,6 +57,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         // Bearer Token
         if(jwt != null && jwt.startsWith("Bearer ")){
             jwt = jwt.substring(7); // remove "Bearer " from jwt
+            System.out.println("JWT Token: " + jwt);
             try{
                 // JWT를 파싱하고 서명 키로 검증하여 Claims 객체로 변환
                 Claims claims = Jwts
