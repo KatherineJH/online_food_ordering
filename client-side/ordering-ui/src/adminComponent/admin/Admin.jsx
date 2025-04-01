@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminSideBar from "./AdminSideBar";
 import { Route, Routes } from "react-router-dom";
 import FoodCategory from "../foodCategory/FoodCategory";
@@ -11,9 +11,44 @@ import Details from "../details/Details";
 import Menu from "../menu/Menu";
 import StoreDetails from "./StoreDetails";
 import CreateMenuForm from "../menu/CreateMenuForm";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getIngredientCategory,
+  getIngredientsOfRestaurant,
+} from "../../component/state/ingredient/Action";
+import { getRestaurantsCategory } from "../../component/state/restaurant/Action";
+import { fetchRestaurantsOrder } from "../../component/state/adminRestaurantOrder/Action";
 
 const Admin = () => {
+  const dispatch = useDispatch();
   const handleClose = () => {};
+  const [openSideBar, setOpenSideBar] = useState(false);
+  const handleOpenSideBar = () => setOpenSideBar(true);
+  const handleCloseSideBar = () => setOpenSideBar(false);
+  const { auth, restaurant, ingredients } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+  useEffect(() => {
+    if (restaurant.usersRestaurant) {
+      // dispatch(
+      //   getIngredientCategory({ jwt, id: restaurant.usersRestaurant?.id })
+      // );
+      // dispatch(
+      //   getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant?.id })
+      // );
+      dispatch(
+        getRestaurantsCategory({
+          jwt: auth.jwt || jwt,
+          id: restaurant.usersRestaurant?.id,
+        })
+      );
+      dispatch(
+        fetchRestaurantsOrder({
+          restaurantId: restaurant.usersRestaurant?.id,
+          jwt: auth.jwt || jwt,
+        })
+      );
+    }
+  }, [restaurant.usersRestaurant]);
   return (
     <div>
       <div className="lg:flex justify-between">

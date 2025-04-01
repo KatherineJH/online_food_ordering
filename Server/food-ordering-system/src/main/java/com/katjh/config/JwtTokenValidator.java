@@ -30,7 +30,7 @@ import java.util.List;
 public class JwtTokenValidator extends OncePerRequestFilter {
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(JwtConctant.SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(JwtConstant.SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -52,7 +52,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
          * Server side 에서, jwt 변수에 할당되는 값은:
          * String jwt = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
          * */
-        String jwt = request.getHeader(JwtConctant.JWT_HEADER);// request.getHeader("Authorization") => get jwt from header
+        String jwt = request.getHeader(JwtConstant.JWT_HEADER);// request.getHeader("Authorization") => get jwt from header
 
         // Bearer Token
         if(jwt != null && jwt.startsWith("Bearer ")){

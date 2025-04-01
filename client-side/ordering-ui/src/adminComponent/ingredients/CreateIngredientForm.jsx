@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { createIngredient } from "../../component/state/ingredient/Action";
 
 const CreateIngredientForm = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { auth, restaurant, ingredient } = useSelector((store) => store);
+
   const [formData, setFormData] = useState({
     name: "",
     ingredientCategoryId: "",
   });
 
   const handleFormSubmit = (event) => {
+    event.preventDefault();
+
     const data = {
-      name: formData.categoryName,
-      restaurantId: {
-        id: 1,
-      },
+      name: formData.name,
+      categoryId: formData.ingredientCategoryId, 
+      restaurantId: restaurant.usersRestaurant?.id,
     };
-    console.log(data);
+
+    dispatch(createIngredient({ jwt, data }));
+    console.log("Form submitted(ingredients):", data);
   };
 
   const handleInputChange = (event) => {
@@ -33,6 +49,7 @@ const CreateIngredientForm = () => {
         </h1>
         <form className="space-y-5" onSubmit={handleFormSubmit}>
           <TextField
+            id="name"
             label="Ingredient"
             name="name"
             value={formData.name}
@@ -49,12 +66,9 @@ const CreateIngredientForm = () => {
               name="ingredientCategoryId"
               onChange={handleInputChange}
             >
-              {/* {ingredients.category.map((item) => (
+              {ingredient.category.map((item) => (
                 <MenuItem value={item.id}>{item.name}</MenuItem>
-              ))} */}
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              ))}
             </Select>
           </FormControl>
 

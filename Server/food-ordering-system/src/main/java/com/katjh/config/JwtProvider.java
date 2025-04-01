@@ -22,7 +22,7 @@ public class JwtProvider {
 
     // JwtTokenValidator 에서도 사용하는 key 반환 공통 메서드
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(JwtConctant.SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(JwtConstant.SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -44,7 +44,7 @@ public class JwtProvider {
 
         // JWT를 생성하여 반환
         return Jwts.builder().issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + JwtConctant.EXPIRATION_TIME))
+                .expiration(new Date((new Date()).getTime() + JwtConstant.EXPIRATION_TIME))
                 .claim("email", auth.getName()) // 사용자 이메일을 "email" 클레임에 저장
                 .claim("authorities", roles) // 권한 정보를 "authorities" 클레임에 저장
                 .signWith(getSigningKey()) // 비밀 키로 서명

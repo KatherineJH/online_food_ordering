@@ -31,7 +31,7 @@ public class IngredientController {
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}/stoke")
+    @PutMapping("/{id}/stock")
     public ResponseEntity<IngredientItem> updateIngredientStock(@PathVariable Long id) throws Exception {
         IngredientItem updatedItem = ingredientsService.updateStock(id);
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);

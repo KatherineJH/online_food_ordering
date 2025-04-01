@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import {
   Button,
@@ -16,9 +16,11 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import uploadToCloudinary from "../adminUtil/uploadToCloudinary";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Select from "@mui/material/Select";
+import { getIngredientsOfRestaurant } from "../../component/state/ingredient/Action";
+import { createMenuItem } from "../../component/state/menu/Action";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,16 +48,17 @@ const initialValues = {
 
 const CreateMenuForm = () => {
   const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant, ingredient } = useSelector((store) => store);
+
   const { id } = useParams();
   const [uploadImage, setUploadImage] = useState();
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      const data = {
-        ...values,
-        restaurantId: 2,
-      };
-      console.log("create food menu form data: ", data);
+      values.restaurantId = restaurant.usersRestaurant.id;
+      console.log("Form values before dispatch: ", values); 
+      dispatch(createMenuItem({ menu: values, jwt }));
     },
   });
   const handleImageChange = async (e) => {
@@ -70,6 +73,12 @@ const CreateMenuForm = () => {
     updatedImages.splice(index, 1);
     formik.setFieldValue("images", updatedImages);
   };
+
+  useEffect(()=>{
+    dispatch(
+      getIngredientsOfRestaurant({jwt, id: restaurant.usersRestaurant.id})
+    )
+  }, [])
 
   return (
     <div className="py-10 px-5 lg:flex items-center justify-center min-h-screen">
@@ -166,12 +175,9 @@ const CreateMenuForm = () => {
                   onChange={formik.handleChange}
                   value={formik.values.category}
                 >
-                  {/* {restaurant.categories.map((item) => (
+                  {restaurant.categories?.map((item) => (
                     <MenuItem value={item}>{item.name}</MenuItem>
-                  ))} */}
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -196,19 +202,19 @@ const CreateMenuForm = () => {
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {selected.map((value) => (
-                        <Chip key={value} label={value} />
+                        <Chip key={value.id} label={value.name} />
                       ))}
                     </Box>
                   )}
                   //   MenuProps={MenuProps}
                 >
-                  {["bread", "tomato", "basil"].map((name, index) => (
+                  {ingredient.ingredients.map((item, index) => (
                     <MenuItem
-                      key={name}
-                      value={name}
+                      key={item.id}
+                      value={item}
                       //   style={getStyles(name, personName, theme)}
                     >
-                      {name}
+                      {item.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -224,9 +230,9 @@ const CreateMenuForm = () => {
                   onChange={formik.handleChange}
                   value={formik.values.vegetarian}
                 >
-                  {/* {restaurant.categories.map((item) => (
+                  {restaurant.categories.map((item) => (
                     <MenuItem value={item}>{item.name}</MenuItem>
-                  ))} */}
+                  ))}
                   <MenuItem value={true}>Yes</MenuItem>
                   <MenuItem value={false}>No</MenuItem>
                 </Select>
