@@ -1,11 +1,11 @@
 package com.katjh.service;
 
+import java.util.List;
+
 import com.katjh.model.Category;
 import com.katjh.model.Food;
 import com.katjh.model.Restaurant;
 import com.katjh.request.CreateFoodRequest;
-
-import java.util.List;
 
 public interface FoodService {
 
@@ -13,8 +13,12 @@ public interface FoodService {
 
     void deleteFood(Long foodId) throws Exception;
 
-    public List<Food> getRestaurantFoods(Long restaurantId, String foodCategory,
-                                         boolean isVegetarian, boolean isSeasonal, boolean isNonVegetarian);
+    public List<Food> getRestaurantFoods(
+            Long restaurantId,
+            String foodCategory,
+            boolean isVegetarian,
+            boolean isSeasonal,
+            boolean isNonVegetarian);
 
     public List<Food> searchFoods(String keyword);
 

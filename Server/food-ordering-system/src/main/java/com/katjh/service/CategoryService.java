@@ -1,8 +1,8 @@
 package com.katjh.service;
 
-import com.katjh.model.Category;
-
 import java.util.List;
+
+import com.katjh.model.Category;
 
 public interface CategoryService {
 

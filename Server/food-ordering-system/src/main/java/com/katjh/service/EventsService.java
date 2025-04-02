@@ -1,12 +1,12 @@
 package com.katjh.service;
 
-import com.katjh.model.Events;
-
 import java.util.List;
+
+import com.katjh.model.Events;
 
 public interface EventsService {
 
-    public Events createEvent(Events event,Long restaurantId) throws Exception;
+    public Events createEvent(Events event, Long restaurantId) throws Exception;
 
     public List<Events> findAllEvent();
 

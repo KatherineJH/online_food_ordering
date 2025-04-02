@@ -8,17 +8,12 @@ import { Button, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { categorizedIngredients } from "../utils/CategorizeIngredient";
 import { addItemToCart } from "../state/cart/Action";
 
-const demo = [
-  { category: "Nuts & Seeds", ingredients: ["Cashews"] },
-  { category: "Protein", ingredients: ["Ground Beef", "Bacon strips"] },
-];
-
 const MenuCard = ({ item }) => {
   const dispatch = useDispatch();
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const handleCheckboxChange = (itemName) => {
-    // console.log("value", itemName);
+    console.log("value", itemName);
     if (selectedIngredients.includes(itemName)) {
       console.log("yes");
       setSelectedIngredients(

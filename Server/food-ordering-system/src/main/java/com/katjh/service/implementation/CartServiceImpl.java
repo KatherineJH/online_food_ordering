@@ -1,5 +1,9 @@
 package com.katjh.service.implementation;
 
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.katjh.model.Cart;
 import com.katjh.model.CartItem;
 import com.katjh.model.Food;
@@ -11,10 +15,8 @@ import com.katjh.request.AddCartItemRequest;
 import com.katjh.service.CartService;
 import com.katjh.service.FoodService;
 import com.katjh.service.user.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +29,9 @@ public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final FoodService foodService;
 
-
     /**
      * Add "a" new item to the cart
+     *
      * @param request
      * @param token
      * @return
@@ -37,15 +39,16 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public CartItem addItemToCart(AddCartItemRequest request, String token) throws Exception {
-//        // token이 아닌 Long userId로 받아서 사용해도 controller에서 token을 받아서 사용하기 때문에 userId를 바로 받아서 사용해도 된다.
-//        Food food = foodService.findFoodById(request.getFoodId());
-//        Cart cart = cartRepository.findByCustomerId(userId);
+        //        // token이 아닌 Long userId로 받아서 사용해도 controller에서 token을 받아서 사용하기 때문에 userId를 바로 받아서
+        // 사용해도 된다.
+        //        Food food = foodService.findFoodById(request.getFoodId());
+        //        Cart cart = cartRepository.findByCustomerId(userId);
         User user = userService.findUserByJwtToken(token);
         Food food = foodService.findFoodById(request.getFoodId());
         Cart cart = cartRepository.findByCustomerId(user.getId());
 
-        for(CartItem cartItem : cart.getItem()){
-            if(cartItem.getFood().equals(food)){
+        for (CartItem cartItem : cart.getItem()) {
+            if (cartItem.getFood().equals(food)) {
                 int newQuantity = cartItem.getQuantity() + request.getQuantity();
                 return updateCartItemQuantity(cartItem.getId(), newQuantity);
             }
@@ -68,7 +71,7 @@ public class CartServiceImpl implements CartService {
     public CartItem updateCartItemQuantity(Long cartItemId, int quantity) throws Exception {
         // find the cart item by cartItemId belongs to the user
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
-        if(cartItemOptional.isEmpty()){
+        if (cartItemOptional.isEmpty()) {
             throw new Exception("cart item not found");
         }
         CartItem item = cartItemOptional.get();
@@ -87,9 +90,9 @@ public class CartServiceImpl implements CartService {
         /**
          * Optional: A container object which may or may not contain a non-null value.
          * NullPointerException 방지 목적. 값이 존재할 수도 있고, 없을 수도 있는 경우에 유용.
-         * */
+         */
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
-        if(cartItemOptional.isEmpty()){
+        if (cartItemOptional.isEmpty()) {
             throw new Exception("cart item not found");
         }
 
@@ -103,7 +106,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Long calculateCartTotals(Cart cart) throws Exception {
         long total = 0L;
-        for(CartItem cartItem: cart.getItem()){
+        for (CartItem cartItem : cart.getItem()) {
             total += cartItem.getFood().getPrice() * cartItem.getQuantity();
         }
 
@@ -113,7 +116,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart findCartById(Long id) throws Exception {
         Optional<Cart> optionalCart = cartRepository.findById(id);
-        if(optionalCart.isEmpty()){
+        if (optionalCart.isEmpty()) {
             throw new Exception("cart not found with id: " + id);
         }
         return optionalCart.get();

@@ -1,6 +1,7 @@
 package com.katjh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,11 +19,9 @@ public class IngredientItem {
 
     private String name;
 
-    @ManyToOne
-    private IngredientCategory category; // single category can have multiple ingredients
+    @ManyToOne private IngredientCategory category; // single category can have multiple ingredients
 
-    @JsonIgnore
-    @ManyToOne
+    @JsonIgnore @ManyToOne
     private Restaurant restaurant; // single restaurant can have multiple ingredients
 
     private boolean inStock = true;

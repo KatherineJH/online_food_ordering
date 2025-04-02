@@ -1,6 +1,7 @@
 package com.katjh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,15 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Category {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private String name;
+    private String name;
 
-        @JsonIgnore
-        @ManyToOne
-        private Restaurant restaurant; // single restaurant can have multiple categories
-
-
+    @JsonIgnore @ManyToOne
+    private Restaurant restaurant; // single restaurant can have multiple categories
 }

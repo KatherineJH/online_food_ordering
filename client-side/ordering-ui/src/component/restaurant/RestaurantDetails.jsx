@@ -32,6 +32,8 @@ const RestaurantDetails = () => {
   const { auth, restaurant, menu } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
   const { id, city } = useParams();
+  console.log(id);
+  console.log(menu?.menuItems);
 
   const [selectedCategory, setSelectedCategory] = useState("all"); // Food Category 상태
   const [foodType, setFoodType] = useState("all"); // Food Type 상태
@@ -54,16 +56,21 @@ const RestaurantDetails = () => {
   console.log("restaurant", restaurant);
 
   useEffect(() => {
-    dispatch(getRestaurantById({ jwt, id }));
-    dispatch(getRestaurantsCategory({ jwt, id }));
-    dispatch(getMenuItemsByRestaurantId({ jwt, id }));
-  }, []);
+    if(id){
+      dispatch(getRestaurantById({ jwt, id }));
+      dispatch(getRestaurantsCategory({ jwt, id }));
+      dispatch(getMenuItemsByRestaurantId({ jwt, restaurantId: id }));
+    }else{
+      console.error("Restaurant ID is missing");
+    }
+    
+  }, [id]);
 
   useEffect(() => {
     dispatch(
       getMenuItemsByRestaurantId({
         jwt,
-        id, //useParams
+        restaurantId: id,
         vegetarian: foodType === "vegetarian",
         nonVegetarian: foodType === "non-Vegetarian",
         seasonal: foodType === "seasonal",

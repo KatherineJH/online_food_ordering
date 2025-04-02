@@ -1,8 +1,8 @@
 package com.katjh.repository;
 
-import com.katjh.model.Cart;
-import com.katjh.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.katjh.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 

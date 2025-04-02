@@ -29,6 +29,7 @@ export const style = {
 };
 
 const initialValues = {
+  addressName: "",
   streetAddress: "",
   state: "",
   postalCode: "",
@@ -36,6 +37,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
+  addressName: Yup.string().required("Address name is required"),
   streetAddress: Yup.string().required("Street address is required"),
   state: Yup.string().required("State name is required"),
   postalCode: Yup.string().required("Postal code is required"),
@@ -58,6 +60,7 @@ const Cart = () => {
         restaurantId: cart.cart?.item[0].food?.restaurant.id,
         deliveryAddress: {
           fullName: auth.user?.fullName,
+          addressName: values.addressName,
           streetAddress: values.streetAddress,
           city: values.city,
           state: values.state,
@@ -66,10 +69,30 @@ const Cart = () => {
         },
       },
     };
-    dispatch(createOrder(data))
+    dispatch(createOrder(data));
     console.log("Form Submitted", values);
   };
 
+  const handleOrderComplete = (selectedAddress) => {
+    const data = {
+      jwt: localStorage.getItem("jwt"),
+      order: {
+        restaurantId: cart.cart?.item[0].food?.restaurant.id,
+        deliveryAddress: {
+          id: selectedAddress.id, // 주소의 id를 그대로 전달
+          fullName: auth.user?.fullName,
+          addressName: selectedAddress.addressName, // addressName도 포함
+          streetAddress: selectedAddress.streetAddress,
+          city: selectedAddress.city,
+          state: selectedAddress.state,
+          postalCode: selectedAddress.postalCode,
+          country: selectedAddress.country,
+        },
+      },
+    };
+    dispatch(createOrder(data)); // 액션 디스패치
+    console.log("Order Complete with Address:", selectedAddress);
+  };
 
   return (
     <>
@@ -109,6 +132,7 @@ const Cart = () => {
                 <AddressCard
                   key={index}
                   handelSelectAddress={createOrderUsingSelectedAddress}
+                  handleOrderComplete={handleOrderComplete} // 주문 완료 함수 전달
                   item={item}
                   showButton={true}
                 />
@@ -117,7 +141,7 @@ const Cart = () => {
                 <AddLocationIcon />
                 <div className="space-y-3 text-gray-400">
                   <h1 className="font-semibold text-lg text-white">
-                    Add New Address
+                    Delivery to New Address
                   </h1>
                   <Button
                     variant="outlined"
@@ -152,6 +176,24 @@ const Cart = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
+                      name="addressName"
+                      label="Name new Address"
+                      fullWidth
+                      variant="outlined"
+                      error={touched.addressName && Boolean(errors.addressName)}
+                      helperText={
+                        touched.addressName && errors.addressName ? (
+                          <span className="text-red-600">
+                            {errors.addressName}
+                          </span>
+                        ) : null
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
                       name="streetAddress"
                       label="Street Address"
                       fullWidth
@@ -164,6 +206,22 @@ const Cart = () => {
                           <span className="text-red-600">
                             {errors.streetAddress}
                           </span>
+                        ) : null
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      name="city"
+                      label="City"
+                      fullWidth
+                      variant="outlined"
+                      error={touched.city && Boolean(errors.city)}
+                      helperText={
+                        touched.city && errors.city ? (
+                          <span className="text-red-600">{errors.city}</span>
                         ) : null
                       }
                     />
@@ -204,29 +262,13 @@ const Cart = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      name="city"
-                      label="City"
-                      fullWidth
-                      variant="outlined"
-                      error={touched.city && Boolean(errors.city)}
-                      helperText={
-                        touched.city && errors.city ? (
-                          <span className="text-red-600">{errors.city}</span>
-                        ) : null
-                      }
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
                     <Button
                       type="submit"
                       variant="contained"
                       fullWidth
                       color="primary"
                     >
-                      Submit
+                      Delivery & Transaction
                     </Button>
                   </Grid>
                 </Grid>

@@ -1,14 +1,16 @@
 package com.katjh.service.user;
 
+import org.springframework.stereotype.Service;
+
 import com.katjh.config.JwtProvider;
 import com.katjh.model.User;
 import com.katjh.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -24,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findUserByEmail(String email) throws Exception {
         User user = userRepository.findByEmail(email);
-        if(user == null){
+        if (user == null) {
             throw new Exception("User not found with email: " + email);
         }
         return user;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping
-    public ResponseEntity<String> HomeController(){
+    public ResponseEntity<String> HomeController() {
         return new ResponseEntity<>("Welcome to the Food Ordering System", HttpStatus.OK);
     }
 }

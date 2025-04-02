@@ -1,10 +1,11 @@
 package com.katjh.request;
 
+import java.util.List;
+
 import com.katjh.model.Category;
 import com.katjh.model.IngredientItem;
-import lombok.Data;
 
-import java.util.List;
+import lombok.Data;
 
 @Data
 public class CreateFoodRequest {

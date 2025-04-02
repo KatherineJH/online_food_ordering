@@ -1,15 +1,17 @@
 package com.katjh.service.implementation;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.katjh.model.Category;
 import com.katjh.model.Restaurant;
 import com.katjh.repository.CategoryRepository;
 import com.katjh.service.CategoryService;
 import com.katjh.service.RestaurantService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategoryById(Long id) throws Exception {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
 
-        if(optionalCategory.isEmpty()){
+        if (optionalCategory.isEmpty()) {
             throw new Exception("Category not found with id: " + id);
         }
         return optionalCategory.get();

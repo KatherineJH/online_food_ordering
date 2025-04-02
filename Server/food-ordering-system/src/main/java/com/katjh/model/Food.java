@@ -1,12 +1,12 @@
 package com.katjh.model;
 
+import java.util.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -21,8 +21,7 @@ public class Food {
     private String description;
     private Long price;
 
-    @ManyToOne
-    private Category foodCategory; // single category can have multiple foods
+    @ManyToOne private Category foodCategory; // single category can have multiple foods
 
     @Column(length = 1000)
     @ElementCollection
@@ -30,14 +29,12 @@ public class Food {
 
     private boolean available;
 
-    @ManyToOne
-    private Restaurant restaurant; // single restaurant can have multiple foods
+    @ManyToOne private Restaurant restaurant; // single restaurant can have multiple foods
 
     private boolean isVegetarian;
     private boolean isSeasonal;
 
-    @ManyToMany
-    private List<IngredientItem> ingredients; // many foods can have many ingredients
+    @ManyToMany private List<IngredientItem> ingredients; // many foods can have many ingredients
 
     private Date creationDate;
 }

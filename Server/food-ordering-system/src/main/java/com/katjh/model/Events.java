@@ -23,8 +23,7 @@ public class Events {
 
     private String name;
 
-    @ManyToOne
-    private Restaurant restaurant;
+    @ManyToOne private Restaurant restaurant;
 
     private String location;
 }

@@ -1,5 +1,13 @@
 package com.katjh.service.implementation;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.katjh.model.*;
 import com.katjh.repository.*;
 import com.katjh.request.OrderRequest;
@@ -7,14 +15,8 @@ import com.katjh.service.CartService;
 import com.katjh.service.OrderService;
 import com.katjh.service.RestaurantService;
 import com.katjh.service.user.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Create a new order(최종 주문)
+     *
      * @param order
      * @param user
      * @return
@@ -41,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
         Address shippingAddress = order.getDeliveryAddress();
         Address savedAddress = addressRepository.save(shippingAddress);
 
-        if(!user.getAddresses().contains(savedAddress)){
+        if (!user.getAddresses().contains(savedAddress)) {
             user.getAddresses().add(savedAddress);
             userRepository.save(user);
         }
@@ -68,15 +71,15 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setTotalPrice(cartItem.getTotalPrice());
 
-            orderItem.setOrder(createdOrder);  // 주문 항목에 주문을 연결
-            orderItems.add(orderItem);  // 리스트에 추가
+            orderItem.setOrder(createdOrder); // 주문 항목에 주문을 연결
+            orderItems.add(orderItem); // 리스트에 추가
         }
 
         // 총 가격 계산
         Long totalPrice = cartService.calculateCartTotals(cart);
 
-        createdOrder.setItems(orderItems);  // 주문 항목 설정
-        createdOrder.setTotalPrice(totalPrice);  // 총 가격 설정
+        createdOrder.setItems(orderItems); // 주문 항목 설정
+        createdOrder.setTotalPrice(totalPrice); // 총 가격 설정
 
         // 주문 저장
         Order savedOrder = orderRepository.save(createdOrder);
@@ -86,20 +89,20 @@ public class OrderServiceImpl implements OrderService {
 
         // 주문 항목들을 저장
         for (OrderItem orderItem : orderItems) {
-            orderItem.setOrder(savedOrder);  // 실제로 DB에 저장된 주문 객체를 설정
-            orderItemRepository.save(orderItem);  // 주문 항목 저장
+            orderItem.setOrder(savedOrder); // 실제로 DB에 저장된 주문 객체를 설정
+            orderItemRepository.save(orderItem); // 주문 항목 저장
         }
 
-        return savedOrder;  // 생성된 주문 반환
+        return savedOrder; // 생성된 주문 반환
     }
 
     @Override
     public Order updateOrder(Long orderId, String orderStatus) throws Exception {
         Order order = findOrderById(orderId);
-        if(orderStatus.equals("OUT_FOR_DELIVERY")
+        if (orderStatus.equals("OUT_FOR_DELIVERY")
                 || orderStatus.equals("DELIVERED")
                 || orderStatus.equals("COMPLETED")
-                || orderStatus.equals("PENDING")){
+                || orderStatus.equals("PENDING")) {
             order.setOrderStatus(orderStatus);
             return orderRepository.save(order);
         }
@@ -120,8 +123,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getRestaurantsOrder(Long restaurantId, String orderStatus) throws Exception {
         List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
-        if(orderStatus != null){
-            orders = orders.stream().filter(order -> order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
+        if (orderStatus != null) {
+            orders =
+                    orders.stream()
+                            .filter(order -> order.getOrderStatus().equals(orderStatus))
+                            .collect(Collectors.toList());
         }
         return orders;
     }
@@ -130,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
     public Order findOrderById(Long orderId) throws Exception {
 
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
-        if(optionalOrder.isEmpty()){
+        if (optionalOrder.isEmpty()) {
             throw new Exception("Order not found");
         }
         return optionalOrder.get();

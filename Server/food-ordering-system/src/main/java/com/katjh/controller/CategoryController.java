@@ -1,15 +1,17 @@
 package com.katjh.controller;
 
-import com.katjh.model.Category;
-import com.katjh.model.User;
-import com.katjh.service.CategoryService;
-import com.katjh.service.user.UserService;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.katjh.model.Category;
+import com.katjh.model.User;
+import com.katjh.service.CategoryService;
+import com.katjh.service.user.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
@@ -20,8 +22,9 @@ public class CategoryController {
     private final UserService userService;
 
     @PostMapping("/admin/category")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category,
-                                                   @RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<Category> createCategory(
+            @RequestBody Category category, @RequestHeader("Authorization") String token)
+            throws Exception {
         User user = userService.findUserByJwtToken(token);
 
         Category createdCategory = categoryService.createCategory(category.getName(), user.getId());
@@ -30,8 +33,8 @@ public class CategoryController {
     }
 
     @GetMapping("/category/restaurant/{id}")
-    public ResponseEntity<List<Category>> getRestaurantCategory(@RequestHeader("Authorization") String token,
-                                                                @PathVariable Long id) throws Exception {
+    public ResponseEntity<List<Category>> getRestaurantCategory(
+            @RequestHeader("Authorization") String token, @PathVariable Long id) throws Exception {
         User user = userService.findUserByJwtToken(token);
 
         List<Category> categories = categoryService.findCategoryByRestaurantId(id);

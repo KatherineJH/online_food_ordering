@@ -1,9 +1,10 @@
 package com.katjh.repository;
 
-import com.katjh.model.IngredientCategory;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.katjh.model.IngredientCategory;
 
 public interface IngredientCategoryRepository extends JpaRepository<IngredientCategory, Long> {
 

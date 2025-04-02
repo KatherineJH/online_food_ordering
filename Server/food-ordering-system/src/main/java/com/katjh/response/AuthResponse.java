@@ -1,6 +1,7 @@
 package com.katjh.response;
 
 import com.katjh.model.USER_ROLE;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,13 @@
 package com.katjh.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -18,8 +19,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Food food; // same food can be ordered multiple times
+    @ManyToOne private Food food; // same food can be ordered multiple times
 
     private int quantity;
 
@@ -27,9 +27,5 @@ public class OrderItem {
 
     private List<String> ingredients;
 
-    @ManyToOne
-    @JsonIgnore
-    private Order order;
+    @ManyToOne @JsonIgnore private Order order;
 }
-
-
