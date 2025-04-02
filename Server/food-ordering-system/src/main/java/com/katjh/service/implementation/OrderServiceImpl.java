@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = findOrderById(orderId);
         if(orderStatus.equals("OUT_FOR_DELIVERY")
                 || orderStatus.equals("DELIVERED")
-                || orderStatus.equals("COMPLETE")
+                || orderStatus.equals("COMPLETED")
                 || orderStatus.equals("PENDING")){
             order.setOrderStatus(orderStatus);
             return orderRepository.save(order);

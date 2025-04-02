@@ -11,7 +11,10 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMenuItemsByRestaurantId } from "../../component/state/menu/Action";
+import {
+  deleteFoodAction,
+  getMenuItemsByRestaurantId,
+} from "../../component/state/menu/Action";
 
 const MenuTable = () => {
   const dispatch = useDispatch();
@@ -20,16 +23,28 @@ const MenuTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!restaurant.usersRestaurant?.id) {
+      console.error("Restaurant ID is undefined");
+      return;
+    }
+    console.log("Restaurant ID: ", restaurant.usersRestaurant.id); // 디버깅 로그 추가
+
     dispatch(
       getMenuItemsByRestaurantId({
+        jwt,
         restaurantId: restaurant.usersRestaurant.id,
-        jwt: localStorage.getItem("jwt"),
         vegetarian: false,
-        seasonal: true,
-        nonveg: false,
+        nonVegetarian: false,
+        seasonal: false,
+        foodCategory: "",
       })
     );
   }, []);
+
+  const handleDeleteFood = (foodId) => {
+    console.log("Handling delete for food ID:", foodId); // Check if this log shows up
+    dispatch(deleteFoodAction({ foodId, jwt }));
+  };
 
   return (
     <Box>
@@ -71,14 +86,19 @@ const MenuTable = () => {
 
                   <TableCell align="right">
                     {item.ingredients.map((ingredient) => (
-                      <Chip label={ingredient} />
+                      <Chip label={ingredient.name} />
                     ))}
                   </TableCell>
-                  <TableCell align="right">{}</TableCell>
-                  <TableCell align="right">{}</TableCell>
+                  <TableCell align="right">₩ {item.price}</TableCell>
                   <TableCell align="right">
-                    <IconButton>
-                      <DeleteIcon />
+                    {item.available ? "instock" : "out of stock"}
+                  </TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleDeleteFood(item.id)} 
+                    >
+                      <DeleteIcon color="error" />
                     </IconButton>
                   </TableCell>
                 </TableRow>

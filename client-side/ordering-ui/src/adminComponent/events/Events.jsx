@@ -14,6 +14,7 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { createEventAction } from "../../component/state/restaurant/Action";
 
 const style = {
   position: "absolute",
@@ -36,12 +37,14 @@ const initialValues = {
 };
 
 const Events = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant } = useSelector((store) => store);
+
+  const [image, setimage] = useState("");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const [image, setimage] = useState("");
-  const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
   const handleCloseModal = () => setOpenModal(false);
@@ -54,20 +57,23 @@ const Events = () => {
   };
 
   const handleDateChange = (date, dateType) => {
-    const formattedDate = dayjs(date).format("MMMM DD, YYYY hh:mm A");
-    setFormValues({ ...formValues, [dateType]: formattedDate });
+    // const formattedDate = dayjs(date).isValid() ? dayjs(date).format("MMMM DD, YYYY hh:mm A") : null;
+    // setFormValues({ ...formValues, [dateType]: formattedDate });
+    const newDate = date ? dayjs(date) : dayjs();
+    setFormValues({ ...formValues, [dateType]: newDate });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("submit: ", formValues);
-
-    // dispatch(
-    //   createEventAction({
-    //     data: formValues,
-    //     restaurantId: 1,
-    //   })
-    // );
+    dispatch(
+      createEventAction({
+        data: formValues,
+        restaurantId: restaurant.usersRestaurant?.id,
+        jwt,
+      })
+    );
+    setFormValues(initialValues);
   };
 
   return (
@@ -120,7 +126,8 @@ const Events = () => {
                     <DateTimePicker
                       renderInput={(props) => <TextField {...props} />}
                       label="Start Date and Time"
-                      value={formValues.startedAt}
+                      value={formValues.startedAt ? dayjs(formValues.startedAt) : null} // dayjs로 변환
+                      // value={formValues.startedAt}
                       onChange={(newValue) =>
                         handleDateChange(newValue, "startedAt")
                       }
@@ -135,7 +142,8 @@ const Events = () => {
                     <DateTimePicker
                       renderInput={(props) => <TextField {...props} />}
                       label="End Date and Time"
-                      value={formValues.endsAt}
+                      // value={formValues.endsAt}
+                      value={formValues.endsAt ? dayjs(formValues.endsAt) : null} // dayjs로 변환
                       onChange={(newValue) =>
                         handleDateChange(newValue, "endsAt")
                       }

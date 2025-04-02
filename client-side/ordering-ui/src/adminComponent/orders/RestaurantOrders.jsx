@@ -5,6 +5,8 @@ import OrderTable from "./OrderTable";
 const orderStatus = [
   {lable:"Pending", value:"PENDING"},
   {lable:"Completed", value:"COMPLETED"},
+  {lable:"On Deliveiry", value:"ON_DELIVERY"},
+  {lable:"Delivered", value:"DELIVERED"},
   {lable:"All", value:"ALL"},
 ]
 

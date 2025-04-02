@@ -230,9 +230,6 @@ const CreateMenuForm = () => {
                   onChange={formik.handleChange}
                   value={formik.values.vegetarian}
                 >
-                  {restaurant.categories.map((item) => (
-                    <MenuItem value={item}>{item.name}</MenuItem>
-                  ))}
                   <MenuItem value={true}>Yes</MenuItem>
                   <MenuItem value={false}>No</MenuItem>
                 </Select>

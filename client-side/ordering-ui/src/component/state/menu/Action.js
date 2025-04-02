@@ -43,8 +43,7 @@ export const getMenuItemsByRestaurantId = (reqData) => {
     dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
     try {
       const { data } = await api.get(
-        `/api/food/restaurant/${reqData.id}?vegetarian=${reqData.vegetarian}&nonVegetarian=${reqData.nonVegetarian}
-        &seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`,
+        `/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonVegetarian=${reqData.nonVegetarian}&seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`,
         {
           headers: {
             Authorization: `Bearer ${reqData.jwt}`,
@@ -133,14 +132,16 @@ export const deleteFoodAction =
   async (dispatch) => {
     dispatch({ type: DELETE_MENU_ITEM_REQUEST });
     try {
+      console.log("Dispatching deleteFoodAction for ID: ", foodId);  // Debug log
       const { data } = await api.delete(`/api/admin/food/${foodId}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      console.log("delete food ", data);
+      console.log("delete food response:", data);
       dispatch({ type: DELETE_MENU_ITEM_SUCCESS, payload: foodId });
     } catch (error) {
+      console.error("Error in deleting food:", error);
       dispatch({ type: DELETE_MENU_ITEM_FAILURE, payload: error });
     }
   };
