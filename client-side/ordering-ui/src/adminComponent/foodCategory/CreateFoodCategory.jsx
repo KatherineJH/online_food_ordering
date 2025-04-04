@@ -15,7 +15,7 @@ import { createCategoryAction } from "../../component/state/restaurant/Action";
 //   });
 
 const CreateFoodCategory = () => {
-  const { restaurant } = useSelector((store) => store);
+  const { restaurant, auth } = useSelector((store) => store);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     categoryName: "",
@@ -26,21 +26,23 @@ const CreateFoodCategory = () => {
     event.preventDefault();
     const data = {
       name: formData.categoryName,
-      restaurant: {
-        id: 1,
-      },
+      // restaurant: {
+      //   id: formData.restaurantId,
+      // },
     };
     // dispatch(createCategoryAction({reqData:data, jwt: auth.jwt || jwt}))
-    dispatch(createCategoryAction({reqData:data, jwt: localStorage.getItem("jwt")}))
+    dispatch(
+      createCategoryAction({ reqData: data, jwt: localStorage.getItem("jwt") })
+    );
     console.log(data);
-    
+
     setFormData({
-      categoryName: '',
-      restaurantId: '',
-    })
-    
-    handleClose()
+      categoryName: "",
+      // restaurantId: "",
+    });
+
     console.log("Form submitted:", data);
+    // handleClose();
   };
 
   const handleInputChange = (event) => {

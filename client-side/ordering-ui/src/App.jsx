@@ -14,6 +14,8 @@ import { getUser } from "./component/state/authentication/Action";
 import { findCart } from "./component/state/cart/Action";
 import Routers from "./Routers/Routers";
 import { getRestaurantByUserId } from "./component/state/restaurant/Action";
+import { Route } from "react-router-dom";
+import Predict from "./Predict";
 
 function App() {
   const dispatch = useDispatch();

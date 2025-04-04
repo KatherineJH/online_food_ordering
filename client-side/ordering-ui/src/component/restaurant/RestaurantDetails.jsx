@@ -56,14 +56,13 @@ const RestaurantDetails = () => {
   console.log("restaurant", restaurant);
 
   useEffect(() => {
-    if(id){
+    if (id) {
       dispatch(getRestaurantById({ jwt, id }));
       dispatch(getRestaurantsCategory({ jwt, id }));
       dispatch(getMenuItemsByRestaurantId({ jwt, restaurantId: id }));
-    }else{
+    } else {
       console.error("Restaurant ID is missing");
     }
-    
   }, [id]);
 
   useEffect(() => {
@@ -83,9 +82,7 @@ const RestaurantDetails = () => {
   return (
     <div className="px-5 lg:px-20">
       <section>
-        <h3 className="text-gray-300 py-2 mt-10">
-          Home/Korean/Korean Delivery Food/3
-        </h3>
+        <h3 className="text-gray-300 py-2 mt-10">{}</h3>
         <div>
           <Grid container spacing={2}>
             {/* 첫 번째 큰 이미지 (전체 너비) */}
@@ -124,12 +121,15 @@ const RestaurantDetails = () => {
           </p>
           <p className="text-gray-400 flex items-center gap-3">
             <CalendarMonthIcon />
-            <span>Mon-Sun: 9:00 AM - 9:00 PM (Today)</span>
+            <span>{restaurant.restaurant?.openingHours}</span>
           </p>
           <div className="space-y-3 mt-3">
             <p className="text-gray-400 flex item-center gap-2">
               <LocationOnIcon />
-              <span>Gangnam, Seoul</span>
+              <span>
+                {restaurant.restaurant?.address.streetAddress},{" "}
+                {restaurant.restaurant?.address.city}
+              </span>
             </p>
           </div>
         </div>

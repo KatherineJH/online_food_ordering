@@ -6,11 +6,12 @@ import BrunchDiningIcon from "@mui/icons-material/BrunchDining";
 import EventIcon from "@mui/icons-material/Event";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import LogoutIcon from "@mui/icons-material/Logout";
-import React from "react";
-import { Divider, Drawer, useMediaQuery } from "@mui/material";
+import React, { useState } from "react";
+import { Divider, Drawer, useMediaQuery, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../component/state/authentication/Action";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const menu = [
   {
@@ -57,13 +58,26 @@ const menu = [
 
 const AdminSideBar = () => {
   // media query는 side bar에 적용, 작은 화면에서 side bar를 열고 닫는 것은 Admin.jsx에서 함.
-  const isSmallScreen = useMediaQuery("(max-width:1080px)");
+  const isSmallScreen = useMediaQuery("(max-width:900px)");
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleClose = () => {};
+
+  const handleToggleSidebar = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   const handleNavigate = (item) => {
+    setOpen(false); // 메뉴 클릭 시 사이드바를 닫음
     navigate(`/admin/restaurant${item.path}`);
-    if (item.title == "Logout") {
+    if (item.title === "Logout") {
       navigate("/");
       dispatch(logout());
     }
@@ -71,14 +85,31 @@ const AdminSideBar = () => {
   return (
     <div>
       <>
+        {/* 작은 화면에서 햄버거 메뉴 버튼 */}
+        {isSmallScreen && (
+          <IconButton
+            onClick={handleToggleSidebar}
+            sx={{
+              position: "absolute",
+              top: "20px",
+              left: "20px",
+              zIndex: 2,
+            }}
+          >
+            <MenuIcon sx={{ fontSize: "2.5rem" }} />
+          </IconButton>
+        )}
         <Drawer
           variant={isSmallScreen ? "temporary" : "permanent"}
-          onClose={handleClose}
-          open={true}
+          onClose={handleToggleSidebar}
+          open={isSmallScreen ? open : true}
           anchor="left"
-          sx={{ zIndex: 1 }}
+          sx={{
+            zIndex: 1,
+            width: isSmallScreen ? "70vw" : "240px", // 작은 화면에서는 사이드바 크기 줄이기
+          }}
         >
-          <div className="w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[1.65rem]">
+          <div className="w-[50vw] lg:w-[20vw] h-[100vh] flex flex-col justify-center text-xl pt-16 gap-8">
             {menu.map((item, i) => (
               <>
                 <div

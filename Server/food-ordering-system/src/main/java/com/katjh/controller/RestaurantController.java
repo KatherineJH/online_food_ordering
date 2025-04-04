@@ -32,11 +32,12 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurants, HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Restaurant>> getAllRestaurant(
-            @RequestHeader("Authorization") String token) throws Exception {
-
-        User user = userService.findUserByJwtToken(token);
+// 방문자도 볼 수 있도록 변경
+//    public ResponseEntity<List<Restaurant>> getAllRestaurant(
+//            @RequestHeader("Authorization") String token) throws Exception {
+        @GetMapping("/visitor")
+        public ResponseEntity<List<Restaurant>> getAllRestaurant(){
+//        User user = userService.findUserByJwtToken(token);
         List<Restaurant> restaurants = restaurantService.getAllRestaurants();
         return new ResponseEntity<>(restaurants, HttpStatus.OK);
     }

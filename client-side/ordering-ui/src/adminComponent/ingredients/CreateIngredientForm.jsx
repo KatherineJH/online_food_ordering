@@ -25,7 +25,7 @@ const CreateIngredientForm = () => {
 
     const data = {
       name: formData.name,
-      categoryId: formData.ingredientCategoryId, 
+      categoryId: formData.ingredientCategoryId,
       restaurantId: restaurant.usersRestaurant?.id,
     };
 
@@ -48,14 +48,6 @@ const CreateIngredientForm = () => {
           Create Ingredient
         </h1>
         <form className="space-y-5" onSubmit={handleFormSubmit}>
-          <TextField
-            id="name"
-            label="Ingredient"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            fullWidth
-          />
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
@@ -71,6 +63,14 @@ const CreateIngredientForm = () => {
               ))}
             </Select>
           </FormControl>
+          <TextField
+            id="name"
+            label="Ingredient"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            fullWidth
+          />
 
           <Button type="submit" variant="contained" color="primary">
             Create

@@ -41,15 +41,17 @@ import {
   GET_RESTAURANTS_CATEGORY_FAILURE,
 } from "./ActionType";
 
-export const gettAllRestaurantsAction = (token) => {
+// export const gettAllRestaurantsAction = (token) => {
+export const gettAllRestaurantsAction = () => {
   return async (dispatch) => {
     dispatch({ type: GET_ALL_RESTAURANTS_REQUEST });
     try {
-      const { data } = await api.get("/api/restaurant", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await api.get("/api/restaurant/visitor");
+      // const { data } = await api.get("/api/restaurant/visitor", {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
       dispatch({ type: GET_ALL_RESTAURANTS_SUCCESS, payload: data });
       console.log("all restaurants ", data);
     } catch (error) {
@@ -258,6 +260,24 @@ export const getRestaurantEvents = ({ restaurantId, jwt }) => {
   };
 };
 
+// export const createCategoryAction = ({ reqData, jwt }) => {
+//   return async (dispatch) => {
+//     dispatch({ type: CREATE_CATEGORY_REQUEST });
+//     try {
+//       const res = await api.post(`/api/admin/category/`, reqData, {
+//         headers: {
+//           Authorization: `Bearer ${jwt}`,
+//         },
+//       });
+//       console.log("get restaurants Events", res.data);
+//       dispatch({ type: CREATE_CATEGORY_SUCCESS, payload: res.data });
+//     } catch (error) {
+//       console.log("catch error ", error);
+//       dispatch({ type: CREATE_CATEGORY_FAILURE, payload: error });
+//     }
+//   };
+// };
+
 export const createCategoryAction = ({ reqData, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_CATEGORY_REQUEST });
@@ -270,7 +290,11 @@ export const createCategoryAction = ({ reqData, jwt }) => {
       console.log("get restaurants Events", res.data);
       dispatch({ type: CREATE_CATEGORY_SUCCESS, payload: res.data });
     } catch (error) {
-      console.log("catch error ", error);
+      // 에러 로그를 좀 더 구체적으로 출력
+      console.error(
+        "Error creating category:",
+        error.response || error.message || error
+      );
       dispatch({ type: CREATE_CATEGORY_FAILURE, payload: error });
     }
   };
@@ -280,14 +304,11 @@ export const getRestaurantsCategory = ({ jwt, id }) => {
   return async (dispatch) => {
     dispatch({ type: GET_RESTAURANTS_CATEGORY_REQUEST });
     try {
-      const res = await api.get(
-        `/api/category/restaurant/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      const res = await api.get(`/api/category/restaurant/${id}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
       console.log("get restaurants category", res.data);
       dispatch({ type: GET_RESTAURANTS_CATEGORY_SUCCESS, payload: res.data });
     } catch (error) {
