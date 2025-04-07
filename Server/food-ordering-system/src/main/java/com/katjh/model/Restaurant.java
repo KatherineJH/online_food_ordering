@@ -35,6 +35,7 @@ public class Restaurant {
 
     private String openingHours;
 
+//    List<Review>를 new ArrayList<>()로 초기화함으로써 null 체크를 피하고, 빈 리스트로 시작
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>(); // single restaurant can have multiple orders
@@ -50,4 +51,8 @@ public class Restaurant {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Food> foods = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> review = new ArrayList<>();
 }

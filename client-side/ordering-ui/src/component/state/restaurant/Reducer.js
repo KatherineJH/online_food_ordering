@@ -21,6 +21,7 @@ const restaurantReducer = (state = initialState, action) => {
     case actionType.GET_RESTAURANTS_BY_USER_ID_REQUEST:
     case actionType.CREATE_CATEGORY_REQUEST:
     case actionType.GET_RESTAURANTS_CATEGORY_REQUEST:
+    case actionType.GET_RESTAURANTS_EVENTS_REQUEST:
       return {
         ...state,
         loading: true,

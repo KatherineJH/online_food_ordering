@@ -1,5 +1,5 @@
 import { Box, Card, CardHeader, IconButton } from "@mui/material";
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -29,7 +29,8 @@ const FoodCategoryTable = () => {
   const { auth, restaurant } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

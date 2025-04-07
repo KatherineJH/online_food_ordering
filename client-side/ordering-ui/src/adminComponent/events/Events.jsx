@@ -2,6 +2,9 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
+  CardContent,
+  CardMedia,
   Grid,
   Modal,
   TextField,
@@ -14,7 +17,10 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { createEventAction } from "../../component/state/restaurant/Action";
+import {
+  createEventAction,
+  getRestaurantEvents,
+} from "../../component/state/restaurant/Action";
 
 const style = {
   position: "absolute",
@@ -39,10 +45,10 @@ const initialValues = {
 const Events = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant } = useSelector((store) => store);
+  const { auth, restaurant } = useSelector((store) => store);
 
   const [image, setimage] = useState("");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -74,10 +80,62 @@ const Events = () => {
       })
     );
     setFormValues(initialValues);
+    handleCloseModal(); // Modal 닫기
   };
 
+  useEffect(() => {
+    if (restaurant.usersRestaurant) {
+      dispatch(
+        getRestaurantEvents({
+          jwt: auth.jwt || jwt,
+          restaurantId: restaurant.usersRestaurant?.id,
+        })
+      );
+    }
+  }, []);
+
   return (
-    <div>
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      {/* 이벤트 카드 렌더링 */}
+      <Grid container spacing={2} justifyContent="center">
+        {restaurant.restaurantsEvents?.length > 0 ? (
+          restaurant.restaurantsEvents.map((event) => (
+            <Grid item key={event.id}>
+              <Card sx={{ width: 350, height: 350, display: "flex", flexDirection: "column", height: "100%" }}>
+                <CardMedia
+                  sx={{ height: 150 }}
+                  image={event.image || "https://via.placeholder.com/345x140"} // 이벤트 이미지, 없으면 기본 이미지
+                  title={event.name}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {event.name}
+                  </Typography>
+                  {/* <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {event.description || "No description available"}
+                  </Typography> */}
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    Location: {event.location}
+                  </Typography>
+                  <Typography variant="body2">
+                    Starts:{" "}
+                    {dayjs(event.startedAt).format("MMM DD, YYYY hh:mm A")}
+                  </Typography>
+                  <Typography variant="body2">
+                    Ends: {dayjs(event.endsAt).format("MMM DD, YYYY hh:mm A")}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" >Share</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Typography>No events available</Typography>
+        )}
+      </Grid>
+
       <div className="p-5">
         <Button onClick={handleOpenModal} variant="contained">
           Create New Event
@@ -126,7 +184,11 @@ const Events = () => {
                     <DateTimePicker
                       renderInput={(props) => <TextField {...props} />}
                       label="Start Date and Time"
-                      value={formValues.startedAt ? dayjs(formValues.startedAt) : null} // dayjs로 변환
+                      value={
+                        formValues.startedAt
+                          ? dayjs(formValues.startedAt)
+                          : null
+                      } // dayjs로 변환
                       // value={formValues.startedAt}
                       onChange={(newValue) =>
                         handleDateChange(newValue, "startedAt")
@@ -143,7 +205,9 @@ const Events = () => {
                       renderInput={(props) => <TextField {...props} />}
                       label="End Date and Time"
                       // value={formValues.endsAt}
-                      value={formValues.endsAt ? dayjs(formValues.endsAt) : null} // dayjs로 변환
+                      value={
+                        formValues.endsAt ? dayjs(formValues.endsAt) : null
+                      } // dayjs로 변환
                       onChange={(newValue) =>
                         handleDateChange(newValue, "endsAt")
                       }

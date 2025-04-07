@@ -33,6 +33,7 @@ public class User {
     private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
 
     // @JsonIgnore: Fetch 할때마다 orders List가 필요한 것이 아니므로.
+    // List<Review>를 new ArrayList<>()로 초기화함으로써 null 체크를 피하고, 빈 리스트로 시작
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
@@ -47,4 +48,9 @@ public class User {
     private List<Address> addresses = new ArrayList<>();
 
     private String status;
+
+    // single review can have only one user, however, one user can have multiple reviews
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }

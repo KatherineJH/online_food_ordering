@@ -6,6 +6,9 @@ import {
   Radio,
   FormControlLabel,
   Typography,
+  Button,
+  Modal,
+  Box,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -18,6 +21,7 @@ import {
   getRestaurantsCategory,
 } from "../state/restaurant/Action";
 import { getMenuItemsByRestaurantId } from "../state/menu/Action";
+import EventsCard from "./EventsCard";
 
 const foodTypes = [
   { label: "All", value: "all" },
@@ -25,6 +29,20 @@ const foodTypes = [
   { label: "Non-Vegetarian", value: "non-vegetarian" },
   { label: "Seasonal", value: "seasonal" },
 ];
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  maxWidth: 800,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  maxHeight: "80vh",
+  overflowY: "auto",
+};
 
 const RestaurantDetails = () => {
   const navigate = useNavigate();
@@ -37,6 +55,7 @@ const RestaurantDetails = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("all"); // Food Category 상태
   const [foodType, setFoodType] = useState("all"); // Food Type 상태
+  const [openModal, setOpenModal] = useState(false); // 모달 상태 추가
 
   const handleFoodTypeFilter = (e) => {
     setFoodType(e.target.value);
@@ -54,6 +73,14 @@ const RestaurantDetails = () => {
     console.log(e.target.value, e.target.name, value);
   };
   console.log("restaurant", restaurant);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    // 모달 열릴 때 이벤트 데이터 가져오기 (필요 시)
+    dispatch(getRestaurantEvents({ jwt, restaurantId: id }));
+  };
+
+  const handleCloseModal = () => setOpenModal(false);
 
   useEffect(() => {
     if (id) {
@@ -111,29 +138,63 @@ const RestaurantDetails = () => {
             </Grid>
           </Grid>
         </div>
-        <div className="pt-3 pb-5">
-          <h1 className="text-4xl font-semibold">
-            {restaurant.restaurant?.name}
-          </h1>
-
-          <p className="text-gray-400 mt-1">
-            {restaurant.restaurant?.description}
-          </p>
-          <p className="text-gray-400 flex items-center gap-3">
-            <CalendarMonthIcon />
-            <span>{restaurant.restaurant?.openingHours}</span>
-          </p>
-          <div className="space-y-3 mt-3">
-            <p className="text-gray-400 flex item-center gap-2">
-              <LocationOnIcon />
-              <span>
-                {restaurant.restaurant?.address.streetAddress},{" "}
-                {restaurant.restaurant?.address.city}
-              </span>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center lg:gap-5 mt-5">
+          {/* 왼쪽 텍스트 블록 */}
+          <div className="pt-3 pb-5 flex-1">
+            <h1 className="text-4xl font-semibold">
+              {restaurant.restaurant?.name}
+            </h1>
+            <p className="text-gray-400 mt-1">
+              {restaurant.restaurant?.description}
             </p>
+            <p className="text-gray-400 flex items-center gap-3">
+              <CalendarMonthIcon />
+              <span>{restaurant.restaurant?.openingHours}</span>
+            </p>
+            <div className="space-y-3 mt-3">
+              <p className="text-gray-400 flex items-center gap-2">
+                <LocationOnIcon />
+                <span>
+                  {restaurant.restaurant?.address.streetAddress},{" "}
+                  {restaurant.restaurant?.address.city}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {/* 오른쪽 버튼 블록 */}
+          <div className="pt-3 pb-5 flex-shrink-0">
+            <Button
+              onClick={handleOpenModal}
+              variant="contained"
+              color="success"
+            >
+              Check Coupons
+            </Button>
           </div>
         </div>
       </section>
+
+      {/* 모달 추가 */}
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="events-modal-title"
+        aria-describedby="events-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography
+            id="events-modal-title"
+            variant="h6"
+            component="h2"
+            gutterBottom
+          >
+            Restaurant Events
+          </Typography>
+          <EventsCard /> {/* EventsCard 컴포넌트 렌더링 */}
+        </Box>
+      </Modal>
+
       <Divider />
       <section className="pt-[2rem] lg:flex relative">
         <div className="space-y-10 lg:w-[20%] filter">
