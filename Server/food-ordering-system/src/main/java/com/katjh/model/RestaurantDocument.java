@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.suggest.Completion;
 
 import java.util.List;
 
@@ -25,4 +27,7 @@ public class RestaurantDocument {
     private List<String> foodDescriptions;
     private List<String> ingredientNames;
     private List<String> foodCategories;
+
+    @CompletionField
+    private Completion suggest;
 }

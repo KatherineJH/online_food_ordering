@@ -39,6 +39,9 @@ import {
   GET_RESTAURANTS_CATEGORY_REQUEST,
   GET_RESTAURANTS_CATEGORY_SUCCESS,
   GET_RESTAURANTS_CATEGORY_FAILURE,
+  GET_ELASTICSEARCH_RESTAURANTS_REQUEST,
+  GET_ELASTICSEARCH_RESTAURANTS_SUCCESS,
+  GET_ELASTICSEARCH_RESTAURANTS_FAILURE,
 } from "./ActionType";
 
 // export const gettAllRestaurantsAction = (token) => {
@@ -314,6 +317,23 @@ export const getRestaurantsCategory = ({ jwt, id }) => {
     } catch (error) {
       console.log("catch error ", error);
       dispatch({ type: GET_RESTAURANTS_CATEGORY_FAILURE, payload: error });
+    }
+  };
+};
+
+export const elasticSearchRestaurant = (keyword) => {
+  return async (dispatch) => {
+    dispatch({ type: GET_ELASTICSEARCH_RESTAURANTS_REQUEST });
+    try {
+      const { data } = await api.get(`/api/search?keyword=${keyword}`);
+      dispatch({ type: GET_ELASTICSEARCH_RESTAURANTS_SUCCESS, payload: data });
+      console.log("elasticSearchRestaurant", data);
+    } catch (error) {
+      console.log("catch error", error);
+      dispatch({
+        type: GET_ELASTICSEARCH_RESTAURANTS_FAILURE,
+        payload: error,
+      });
     }
   };
 };

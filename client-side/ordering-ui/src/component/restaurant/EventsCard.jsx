@@ -1,4 +1,12 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantEvents } from "../state/restaurant/Action";
@@ -34,7 +42,7 @@ const EventsCard = () => {
                   height: 350,
                   display: "flex",
                   flexDirection: "column",
-                  height: "100%",
+                  // height: "100%",
                 }}
               >
                 <CardMedia

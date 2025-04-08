@@ -1,5 +1,6 @@
 package com.katjh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,9 +24,16 @@ public class Review {
 
     // single review can have only one restaurant, however, one restaurant can have multiple reviews
     @ManyToOne
+    @JsonIgnore
     private Restaurant restaurant;
 
     // single review can have only one user, however, one user can have multiple reviews
     @ManyToOne
+    @JsonIgnore
     private User user;
+
+    // single review can have only one order, however, one order can have multiple reviews
+    @JsonIgnore
+    @ManyToOne
+    private Order order;
 }

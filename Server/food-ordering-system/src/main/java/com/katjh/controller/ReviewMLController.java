@@ -2,9 +2,11 @@ package com.katjh.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.katjh.model.Order;
 import com.katjh.model.Restaurant;
 import com.katjh.model.Review;
 import com.katjh.model.User;
+import com.katjh.repository.OrderRepository;
 import com.katjh.repository.RestaurantRepository;
 import com.katjh.repository.ReviewRepository;
 import com.katjh.service.serviceAI.MLService;
@@ -26,51 +28,11 @@ public class ReviewMLController {
     private final UserService userService;
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;
+    private final OrderRepository orderRepository;
 
 //    @PostMapping
 //    public String requestPrediction(@RequestBody Map<String, Object> inputData) {
 //        return mlService.getPrediction(inputData);
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<Map<String, Object>> requestPrediction(
-//            @RequestHeader("Authorization") String token,
-//            @RequestBody Map<String, Object> inputData) {
-//
-//        try {
-//            User user = userService.findUserByJwtToken(token);
-//            Long restaurantId = Long.valueOf(inputData.get("restaurantId").toString());
-//            Restaurant restaurant = restaurantRepository.findById(restaurantId)
-//                    .orElseThrow(() -> new RuntimeException("Restaurant not found"));
-//
-//            String response = mlService.getPrediction(inputData);
-//
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode responseJson = objectMapper.readTree(response);
-//            String predictedLabel = responseJson.get("prediction").asText();
-//            double confidence = responseJson.get("probability").asDouble();
-//
-//            Review review = new Review();
-//            review.setContent(inputData.get("review").toString()); // 키 이름 주의
-//            review.setRating(predictedLabel);
-//            review.setPercentage(confidence * 100);
-//            review.setRestaurant(restaurant);
-//            review.setUser(user);
-//
-//            reviewRepository.save(review);
-//
-//            Map<String, Object> result = new HashMap<>();
-//            result.put("prediction", predictedLabel);
-//            result.put("confidence", confidence * 100);
-//            result.put("message", "Review saved successfully");
-//
-//            return ResponseEntity.ok(result);
-//
-//        } catch (Exception e) {
-//            Map<String, Object> error = new HashMap<>(); // 이 부분 수정
-//            error.put("error", "Prediction failed: " + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-//        }
 //    }
 
     @PostMapping
@@ -80,14 +42,19 @@ public class ReviewMLController {
 
         try {
             User user = userService.findUserByJwtToken(token);
+
             Long restaurantId = Long.valueOf(inputData.get("restaurantId").toString());
+            Long orderId = Long.valueOf(inputData.get("orderId").toString());
+
             Restaurant restaurant = restaurantRepository.findById(restaurantId)
                     .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+            Order order = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new RuntimeException("Order not found"));
 
-            String response = mlService.getPrediction(inputData); // 이건 JSON string임
+            String response = mlService.getPrediction(inputData);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode responseJson = objectMapper.readTree(response); // 안전하게 JSON 파싱
+            JsonNode responseJson = objectMapper.readTree(response);
 
             String predictedLabel = responseJson.get("prediction").asText();
             double confidence = responseJson.get("probability").asDouble();
@@ -98,6 +65,7 @@ public class ReviewMLController {
             review.setPercentage(confidence * 100);
             review.setRestaurant(restaurant);
             review.setUser(user);
+            review.setOrder(order); // <- 연결된 주문 저장
 
             reviewRepository.save(review);
 
@@ -114,8 +82,6 @@ public class ReviewMLController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
-
-
 
     @GetMapping("/top-words")
     public String getTopWords() {

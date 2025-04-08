@@ -5,8 +5,8 @@ import Home from "../component/home/Home";
 import RestaurantDetails from "../component/restaurant/RestaurantDetails";
 import Cart from "../component/cart/Cart";
 import Profile from "../component/profile/Profile";
-import Orders from "../component/profile/Orders";
 import Auth from "../component/auth/Auth";
+import Predict from "../Predict";
 
 const CustomerRouter = () => {
   return (
@@ -21,6 +21,7 @@ const CustomerRouter = () => {
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/my-profile/*" element={<Profile />} />
+        <Route path="/predict" element={<Predict />} />
       </Routes>
       <Auth />
     </div>

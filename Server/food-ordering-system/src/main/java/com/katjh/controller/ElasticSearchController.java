@@ -27,4 +27,9 @@ public class ElasticSearchController {
         restaurantIndexer.indexAllRestaurants();
         return ResponseEntity.ok("Indexing complete!");
     }
+
+    @GetMapping("/autocomplete")
+    public ResponseEntity<List<String>> autocomplete(@RequestParam String prefix) {
+        return ResponseEntity.ok(searchService.autocomplete(prefix));
+    }
 }

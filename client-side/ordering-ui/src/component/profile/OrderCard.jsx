@@ -1,7 +1,23 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const OrderCard = ({ order }) => {
+  const navigate = useNavigate();
+
+  const handlePredictClick = () => {
+    if (order.reviews && order.reviews.length > 0) {
+      alert("이미 리뷰가 작성된 주문입니다.");
+      return;
+    }
+    navigate("/predict", {
+      state: {
+        orderId: order.id,
+        restaurantId: order.items[0].food.restaurant.id,
+      },
+    });
+  };
+
   return (
     <Card className="p-5">
       <CardContent>
@@ -36,8 +52,15 @@ const OrderCard = ({ order }) => {
                   </Typography>
                 </div>
               </div>
-              <Button className="cursor-not-allowed" size="small">
-                {order.orderStatus}
+              <Button
+                size="small"
+                onClick={handlePredictClick}
+                disabled={order.orderStatus !== "COMPLETED"}
+              >
+                {/* {order.orderStatus} */}
+                {order.reviews?.length > 0
+                  ? "Review Complete"
+                  : order.orderStatus}
               </Button>
             </div>
           ))}

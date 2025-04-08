@@ -22,6 +22,7 @@ const restaurantReducer = (state = initialState, action) => {
     case actionType.CREATE_CATEGORY_REQUEST:
     case actionType.GET_RESTAURANTS_CATEGORY_REQUEST:
     case actionType.GET_RESTAURANTS_EVENTS_REQUEST:
+    case actionType.GET_ELASTICSEARCH_RESTAURANTS_REQUEST:
       return {
         ...state,
         loading: true,
@@ -105,6 +106,12 @@ const restaurantReducer = (state = initialState, action) => {
         loading: false,
         categories: action.payload,
       };
+    case actionType.GET_ELASTICSEARCH_RESTAURANTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        restaurants: action.payload, // 검색 결과를 restaurants에 저장
+      };
     case actionType.CREATE_RESTAURANTS_FAILURE:
     case actionType.GET_ALL_RESTAURANTS_FAILURE:
     case actionType.DELETE_RESTAURANTS_FAILURE:
@@ -114,6 +121,7 @@ const restaurantReducer = (state = initialState, action) => {
     case actionType.CREATE_RESTAURANTS_EVENTS_FAILURE:
     case actionType.CREATE_CATEGORY_FAILURE:
     case actionType.GET_RESTAURANTS_CATEGORY_FAILURE:
+    case actionType.GET_ELASTICSEARCH_RESTAURANTS_FAILURE:
       return {
         ...state,
         loading: false,

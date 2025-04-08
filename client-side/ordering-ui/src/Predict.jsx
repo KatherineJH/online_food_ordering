@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Predict = () => {
+  const location = useLocation();
+  const { orderId, restaurantId } = location.state || {};
+
   const [review, setReview] = useState("");
   const [result, setResult] = useState(null);
 
@@ -18,7 +22,8 @@ const Predict = () => {
         "http://localhost:5454/predict",
         {
           review,
-          restaurantId: 1, // 테스트용 임시 값 (혹은 상태로 관리해도 됨)
+          restaurantId,
+          orderId,
         },
         {
           headers: {
@@ -48,7 +53,7 @@ const Predict = () => {
       }}
     >
       <Typography variant="h4" gutterBottom>
-        리뷰 감정 예측
+        리뷰를 남겨주세요!
       </Typography>
       <Box
         component="form"
@@ -70,7 +75,7 @@ const Predict = () => {
           color="primary"
           sx={{ mt: 2 }}
         >
-          예측하기
+          리뷰 남기기
         </Button>
       </Box>
 

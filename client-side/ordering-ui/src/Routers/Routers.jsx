@@ -12,9 +12,8 @@ const Routers = () => {
       <Route path="/admin/restaurant/*" element={<AdminRouter />}></Route>
       <Route path="/*" element={<CustomerRouter />}></Route>
       {/* 테스트 화면 추가 */}
-      <Route path="/predict" element={<Predict />} />
-      <Route path="/top-words" element={<TopWords />} /> {/* best 20와 worst 20 을 동시에 로드 */}
-      <Route path="/rank-restaurants" element={<RankedRestaurant />} />
+      {/* <Route path="/top-words" element={<TopWords />} /> 
+      <Route path="/rank-restaurants" element={<RankedRestaurant />} /> */}
     </Routes>
   );
 };

@@ -101,7 +101,14 @@ const Events = () => {
         {restaurant.restaurantsEvents?.length > 0 ? (
           restaurant.restaurantsEvents.map((event) => (
             <Grid item key={event.id}>
-              <Card sx={{ width: 350, height: 350, display: "flex", flexDirection: "column", height: "100%" }}>
+              <Card
+                sx={{
+                  width: 350,
+                  height: 350,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 <CardMedia
                   sx={{ height: 150 }}
                   image={event.image || "https://via.placeholder.com/345x140"} // 이벤트 이미지, 없으면 기본 이미지
@@ -126,7 +133,7 @@ const Events = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" >Share</Button>
+                  <Button size="small">Share</Button>
                 </CardActions>
               </Card>
             </Grid>
