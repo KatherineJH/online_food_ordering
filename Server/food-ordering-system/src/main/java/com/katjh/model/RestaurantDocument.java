@@ -1,15 +1,16 @@
 package com.katjh.model;
 
+import java.util.List;
+
+import org.springframework.data.elasticsearch.annotations.CompletionField;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.suggest.Completion;
+
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.elasticsearch.annotations.CompletionField;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.core.suggest.Completion;
-
-import java.util.List;
 
 @Document(indexName = "restaurants")
 @Data
@@ -18,8 +19,7 @@ import java.util.List;
 @Builder
 public class RestaurantDocument {
 
-    @Id
-    private Long id;
+    @Id private Long id;
 
     private String name;
     private String cuisineType;
@@ -28,6 +28,5 @@ public class RestaurantDocument {
     private List<String> ingredientNames;
     private List<String> foodCategories;
 
-    @CompletionField
-    private Completion suggest;
+    @CompletionField private Completion suggest;
 }

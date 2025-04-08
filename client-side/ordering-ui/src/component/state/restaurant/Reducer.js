@@ -9,6 +9,7 @@ const initialState = {
   events: [],
   restaurantsEvents: [],
   categories: [],
+  searchedRestaurantDetails: [], // fuzzy search 결과로 검색된 id들
 };
 
 const restaurantReducer = (state = initialState, action) => {
@@ -45,6 +46,15 @@ const restaurantReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         restaurant: action.payload,
+        searchedRestaurantDetails: [
+          ...state.searchedRestaurantDetails,
+          action.payload,
+        ],
+      };
+    case actionType.RESET_SEARCHED_RESTAURANT_DETAILS: // ✅ 선택적 초기화 지원
+      return {
+        ...state,
+        searchedRestaurantDetails: [],
       };
     case actionType.GET_RESTAURANTS_BY_USER_ID_SUCCESS:
     case actionType.UPDATE_RESTAURANTS_STATUS_SUCCESS:

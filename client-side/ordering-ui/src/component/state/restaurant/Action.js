@@ -42,6 +42,7 @@ import {
   GET_ELASTICSEARCH_RESTAURANTS_REQUEST,
   GET_ELASTICSEARCH_RESTAURANTS_SUCCESS,
   GET_ELASTICSEARCH_RESTAURANTS_FAILURE,
+  RESET_SEARCHED_RESTAURANT_DETAILS,
 } from "./ActionType";
 
 // export const gettAllRestaurantsAction = (token) => {
@@ -337,3 +338,7 @@ export const elasticSearchRestaurant = (keyword) => {
     }
   };
 };
+
+export const resetSearchedRestaurantDetails = () => ({
+  type: RESET_SEARCHED_RESTAURANT_DETAILS,
+});

@@ -1,13 +1,15 @@
 package com.katjh.controller;
 
-import com.katjh.model.RestaurantDocument;
-import com.katjh.service.serviceAI.RestaurantElasticSearchService;
-import com.katjh.service.serviceAI.RestaurantIndexer;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.katjh.model.RestaurantDocument;
+import com.katjh.service.serviceAI.RestaurantElasticSearchService;
+import com.katjh.service.serviceAI.RestaurantIndexer;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/search")

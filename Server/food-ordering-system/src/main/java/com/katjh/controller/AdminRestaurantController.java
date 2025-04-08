@@ -1,15 +1,17 @@
 package com.katjh.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.katjh.model.Restaurant;
 import com.katjh.model.User;
 import com.katjh.request.CreateRestaurantRequest;
 import com.katjh.response.MessageResponse;
 import com.katjh.service.RestaurantService;
 import com.katjh.service.user.UserService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +23,8 @@ public class AdminRestaurantController {
 
     @PostMapping()
     public ResponseEntity<Restaurant> createRestaurant(
-            @RequestBody CreateRestaurantRequest req,
-            @RequestHeader("Authorization") String token) throws Exception{
+            @RequestBody CreateRestaurantRequest req, @RequestHeader("Authorization") String token)
+            throws Exception {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.createRestaurant(req, user);
@@ -33,7 +35,8 @@ public class AdminRestaurantController {
     public ResponseEntity<Restaurant> updateRestaurant(
             @RequestBody CreateRestaurantRequest req,
             @RequestHeader("Authorization") String token,
-            @PathVariable Long id) throws Exception{
+            @PathVariable Long id)
+            throws Exception {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.updateRestaurant(id, req);
@@ -42,8 +45,7 @@ public class AdminRestaurantController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteRestaurant(
-            @RequestHeader("Authorization") String token,
-            @PathVariable Long id) throws Exception{
+            @RequestHeader("Authorization") String token, @PathVariable Long id) throws Exception {
 
         User user = userService.findUserByJwtToken(token);
         restaurantService.deleteRestaurant(id);
@@ -55,8 +57,7 @@ public class AdminRestaurantController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<Restaurant> updateRestaurantStatus(
-            @RequestHeader("Authorization") String token,
-            @PathVariable Long id) throws Exception{
+            @RequestHeader("Authorization") String token, @PathVariable Long id) throws Exception {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.updateRestaurantStatus(id);
@@ -66,7 +67,7 @@ public class AdminRestaurantController {
 
     @GetMapping("/user")
     public ResponseEntity<Restaurant> findRestaurantByUserId(
-            @RequestHeader("Authorization") String token) throws Exception{
+            @RequestHeader("Authorization") String token) throws Exception {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());

@@ -1,10 +1,11 @@
 package com.katjh.request;
 
+import java.util.List;
+
 import com.katjh.model.Address;
 import com.katjh.model.ContactInformation;
-import lombok.Data;
 
-import java.util.List;
+import lombok.Data;
 
 @Data
 public class CreateRestaurantRequest {
@@ -17,6 +18,4 @@ public class CreateRestaurantRequest {
     private ContactInformation contactInformation;
     private String openingHours;
     private List<String> images;
-
-
 }

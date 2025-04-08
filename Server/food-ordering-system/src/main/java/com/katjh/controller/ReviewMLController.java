@@ -1,5 +1,12 @@
 package com.katjh.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.katjh.model.Order;
@@ -11,13 +18,8 @@ import com.katjh.repository.RestaurantRepository;
 import com.katjh.repository.ReviewRepository;
 import com.katjh.service.serviceAI.MLService;
 import com.katjh.service.user.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/predict")
@@ -30,10 +32,10 @@ public class ReviewMLController {
     private final RestaurantRepository restaurantRepository;
     private final OrderRepository orderRepository;
 
-//    @PostMapping
-//    public String requestPrediction(@RequestBody Map<String, Object> inputData) {
-//        return mlService.getPrediction(inputData);
-//    }
+    //    @PostMapping
+    //    public String requestPrediction(@RequestBody Map<String, Object> inputData) {
+    //        return mlService.getPrediction(inputData);
+    //    }
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> requestPrediction(
@@ -46,10 +48,14 @@ public class ReviewMLController {
             Long restaurantId = Long.valueOf(inputData.get("restaurantId").toString());
             Long orderId = Long.valueOf(inputData.get("orderId").toString());
 
-            Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                    .orElseThrow(() -> new RuntimeException("Restaurant not found"));
-            Order order = orderRepository.findById(orderId)
-                    .orElseThrow(() -> new RuntimeException("Order not found"));
+            Restaurant restaurant =
+                    restaurantRepository
+                            .findById(restaurantId)
+                            .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+            Order order =
+                    orderRepository
+                            .findById(orderId)
+                            .orElseThrow(() -> new RuntimeException("Order not found"));
 
             String response = mlService.getPrediction(inputData);
 

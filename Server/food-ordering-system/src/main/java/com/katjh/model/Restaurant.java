@@ -1,14 +1,15 @@
 package com.katjh.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,8 +21,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private User owner;
+    @OneToOne private User owner;
 
     private String name;
     private String description;
@@ -30,12 +30,11 @@ public class Restaurant {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @Embedded
-    private ContactInformation contactInformation;
+    @Embedded private ContactInformation contactInformation;
 
     private String openingHours;
 
-//    List<Review>를 new ArrayList<>()로 초기화함으로써 null 체크를 피하고, 빈 리스트로 시작
+    //    List<Review>를 new ArrayList<>()로 초기화함으로써 null 체크를 피하고, 빈 리스트로 시작
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>(); // single restaurant can have multiple orders

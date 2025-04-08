@@ -8,6 +8,7 @@ import { isPresentInFavorites } from "../config/logic";
 import { addToFavorite } from "../state/authentication/Action";
 
 export const RestaurantCard = ({ item }) => {
+  if (!item || typeof item !== "object") return null; // 에러 방어
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { auth } = useSelector((store) => store);
@@ -27,8 +28,12 @@ export const RestaurantCard = ({ item }) => {
       >
         <img
           className="w-full h-[10rem] rounded-t-md object-cover"
-          src={item.images[0]}
-          alt=""
+          src={
+            Array.isArray(item.images) && item.images.length > 0
+              ? item.images[0]
+              : "https://via.placeholder.com/300x200"
+          } // 에러 시에 대체 이미지 사용
+          alt={item.name}
         />
         <Chip
           size="small"
@@ -39,7 +44,13 @@ export const RestaurantCard = ({ item }) => {
       </div>
       <div className="p-4 textPart lg:flex w-full justify-between">
         <div className="space-y-1">
-          <p onClick={handleNavigateToRestaurant} className="font-semibold text-lg cursor-pointer"> {item.name} </p>
+          <p
+            onClick={handleNavigateToRestaurant}
+            className="font-semibold text-lg cursor-pointer"
+          >
+            {" "}
+            {item.name}{" "}
+          </p>
           <p className="text-gray-500 text-sm"> {item.description}</p>
         </div>
         <div>

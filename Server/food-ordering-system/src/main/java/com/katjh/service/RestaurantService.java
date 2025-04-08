@@ -1,17 +1,18 @@
 package com.katjh.service;
 
+import java.util.List;
+
 import com.katjh.dto.RestaurantDto;
 import com.katjh.model.Restaurant;
 import com.katjh.model.User;
 import com.katjh.request.CreateRestaurantRequest;
 
-import java.util.List;
-
 public interface RestaurantService {
 
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user);
 
-    public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant) throws Exception;
+    public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant)
+            throws Exception;
 
     public void deleteRestaurant(Long restaurantId) throws Exception;
 

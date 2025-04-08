@@ -7,6 +7,7 @@ import Cart from "../component/cart/Cart";
 import Profile from "../component/profile/Profile";
 import Auth from "../component/auth/Auth";
 import Predict from "../Predict";
+import { SearchPage } from "../component/restaurant/SearchPage";
 
 const CustomerRouter = () => {
   return (
@@ -21,7 +22,8 @@ const CustomerRouter = () => {
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/my-profile/*" element={<Profile />} />
-        <Route path="/predict" element={<Predict />} />
+        <Route path="/predict" element={<Predict />} /> {/* 리뷰 등록 */}
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
       <Auth />
     </div>

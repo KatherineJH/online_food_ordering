@@ -33,8 +33,9 @@ public class EventController {
     }
 
     @GetMapping("/admin/events/restaurant/{restaurantId}")
-    public ResponseEntity<List<Events>> findRestaurantsEvents(@RequestHeader("Authorization") String token,
-                                                              @PathVariable Long restaurantId) throws Exception {
+    public ResponseEntity<List<Events>> findRestaurantsEvents(
+            @RequestHeader("Authorization") String token, @PathVariable Long restaurantId)
+            throws Exception {
         List<Events> events = eventService.findRestaurantsEvent(restaurantId);
         return new ResponseEntity<>(events, HttpStatus.ACCEPTED);
     }

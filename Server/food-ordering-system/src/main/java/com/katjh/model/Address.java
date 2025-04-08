@@ -30,12 +30,12 @@ public class Address {
 
     private String country;
 
-//    // 하나의 주소는 has 여러 개의 orders
-//    @OneToMany(mappedBy = "deliveryAddress", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Order> orders;
-//
-//    // 각 주소는 하나의 사용자와 연결
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    //    // 하나의 주소는 has 여러 개의 orders
+    //    @OneToMany(mappedBy = "deliveryAddress", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    private List<Order> orders;
+    //
+    //    // 각 주소는 하나의 사용자와 연결
+    //    @ManyToOne
+    //    @JoinColumn(name = "user_id")
+    //    private User user;
 }
