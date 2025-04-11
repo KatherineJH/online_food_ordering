@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import CreateRestaurantForm from "../adminComponent/CreateRestaurantForm/CreateRestaurantForm";
+import CreateRestaurantForm from "../adminComponent/createRestaurantForm/CreateRestaurantForm";
 import Admin from "../adminComponent/admin/Admin";
 import { useSelector } from "react-redux";
 

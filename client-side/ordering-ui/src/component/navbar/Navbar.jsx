@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { elasticSearchRestaurant } from "../state/restaurant/Action";
 import axios from "axios";
+import { api } from "../config/Api";
 
 export const Navbar = () => {
   const { auth, cart } = useSelector((store) => store);
@@ -44,9 +45,7 @@ export const Navbar = () => {
 
   const handleAutocomplete = async (value) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5454/api/search/autocomplete?prefix=${value}`
-      );
+      const res = await api.get(`/search/autocomplete?prefix=${value}`);
       setSuggestions(res.data);
     } catch (error) {
       console.error("Autocomplete error:", error);

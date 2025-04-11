@@ -29,7 +29,7 @@ import com.katjh.service.user.CustomerUserDetailsService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

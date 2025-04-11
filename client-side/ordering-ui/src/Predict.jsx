@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { api } from "./component/config/Api";
 
 const Predict = () => {
   const location = useLocation();
@@ -18,8 +19,8 @@ const Predict = () => {
         throw new Error("JWT 토큰이 없습니다. 로그인해주세요.");
       }
 
-      const response = await axios.post(
-        "http://localhost:5454/predict",
+      const response = await api.post(
+        "/predict",
         {
           review,
           restaurantId,

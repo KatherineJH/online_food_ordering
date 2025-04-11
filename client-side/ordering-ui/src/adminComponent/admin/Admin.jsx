@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import FoodCategory from "../foodCategory/FoodCategory";
 import Ingredients from "../ingredients/Ingredients";
 import Events from "../events/Events";
-import CreateRestaurantForm from "../CreateRestaurantForm/CreateRestaurantForm";
+import CreateRestaurantForm from "../createRestaurantForm/CreateRestaurantForm";
 import RestaurantOrders from "../orders/RestaurantOrders";
 import RestaurantDashboard from "../dashboard/RestaurantDashboard";
 import Details from "../details/Details";

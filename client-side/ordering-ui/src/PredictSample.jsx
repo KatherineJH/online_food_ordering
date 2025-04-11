@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { api } from "./component/config/Api";
 
 const Predict = () => {
   const [formData, setFormData] = useState({
@@ -26,14 +27,17 @@ const Predict = () => {
 
     try {
       console.log("Sending request to backend:", formData); // 요청 데이터 확인
-      const response = await axios.post(
-        "http://localhost:5454/predict", // Spring Boot로 요청 보내기
+      const response = await api.post(
+        "/predict", // Spring Boot로 요청 보내기
         formData
       );
       console.log("Response from backend:", response.data); // 응답 확인
       setPrediction(response.data.prediction); // 예측 결과 업데이트
     } catch (error) {
-      console.error("Error:", error.response ? error.response.data : error.message); // 에러 로그 확인
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      ); // 에러 로그 확인
       setPrediction("Error fetching prediction");
     }
   };
@@ -56,7 +60,12 @@ const Predict = () => {
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ display: "flex", flexDirection: "column", gap: 2, width: "300px" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          width: "300px",
+        }}
       >
         <TextField
           type="number"
