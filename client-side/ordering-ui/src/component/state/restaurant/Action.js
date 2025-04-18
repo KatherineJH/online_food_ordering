@@ -264,6 +264,22 @@ export const getRestaurantEvents = ({ restaurantId, jwt }) => {
   };
 };
 
+export const getVisitsRestaurantEvents = ({ restaurantId }) => {
+  return async (dispatch) => {
+    dispatch({ type: GET_RESTAURANTS_EVENTS_REQUEST });
+    try {
+      const res = await api.get(
+        `/api/restaurant/visitor/events/${restaurantId}`,
+      );
+      console.log("get restaurants Events", res.data);
+      dispatch({ type: GET_RESTAURANTS_EVENTS_SUCCESS, payload: res.data });
+    } catch (error) {
+      console.log("catch error ", error);
+      dispatch({ type: GET_RESTAURANTS_EVENTS_FAILURE, payload: error });
+    }
+  };
+};
+
 // export const createCategoryAction = ({ reqData, jwt }) => {
 //   return async (dispatch) => {
 //     dispatch({ type: CREATE_CATEGORY_REQUEST });

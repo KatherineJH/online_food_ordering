@@ -1,0 +1,22 @@
+# 공통적으로 무조건 포함
+.git
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.vscode/
+*.iml
+.DS_Store
+
+# 백엔드(Spring)
+target/
+
+# 프론트엔드(React, Vue)
+node_modules/
+dist/
+build/
+
+# 가상환경(Python)
+venv/
+.env

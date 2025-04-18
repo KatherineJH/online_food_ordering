@@ -46,9 +46,15 @@ export const Navbar = () => {
   const handleAutocomplete = async (value) => {
     try {
       const res = await api.get(`/search/autocomplete?prefix=${value}`);
-      setSuggestions(res.data);
+      // 👉 res.data가 배열인지 확인하고 아니면 빈 배열로 처리
+      if (Array.isArray(res.data)) {
+        setSuggestions(res.data);
+      } else {
+        setSuggestions([]);
+      }
     } catch (error) {
       console.error("Autocomplete error:", error);
+      setSuggestions([]); // 에러 시도 비워주기
     }
   };
 
@@ -103,7 +109,7 @@ export const Navbar = () => {
           </Paper>
 
           {/* 자동완성 결과 */}
-          {suggestions.length > 0 && (
+          {Array.isArray(suggestions) && suggestions.length > 0 && (
             <Paper
               className="absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto z-50"
               elevation={3}

@@ -69,9 +69,16 @@ public class AuthController {
         cartRepository.save(cart);
 
         // 회원가입 완료 즉시 token 동시 생성.
+        UserDetails userDetails = customerUserDetailsService.loadUserByUsername(user.getEmail());
         Authentication authentication =
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        //      // 회원가입 완료 즉시 token 동시 생성.
+        //        Authentication authentication =
+        //                new UsernamePasswordAuthenticationToken(user.getEmail(),
+        // user.getPassword());
+        //        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateToken(authentication);
 

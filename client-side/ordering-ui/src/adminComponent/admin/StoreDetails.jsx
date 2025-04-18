@@ -102,28 +102,28 @@ const StoreDetails = () => {
                   <p className="w-48">Country</p>
                   <p className="text-gray-400">
                     <span className="pr-5">-</span>
-                    Kat
+                    {restaurant.usersRestaurant?.address?.country}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">City</p>
                   <p className="text-gray-400">
                     <span className="pr-5">-</span>
-                    Kat's Food
+                    {restaurant.usersRestaurant?.address?.city}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Posttal Code</p>
                   <p className="text-gray-400">
                     <span className="pr-5">-</span>
-                    Bunsik
+                    {restaurant.usersRestaurant?.address?.postalCode}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Street Address</p>
                   <p className="text-gray-400">
                     <span className="pr-5">-</span>
-                    Bunsik
+                    {restaurant.usersRestaurant?.address?.streetAddress}
                   </p>
                 </div>
               </div>

@@ -40,7 +40,7 @@ services:
       - default
 
   elasticsearch:
-    image: elasticsearch:8.15.5
+    image: elasticsearch:8.12.2
     container_name: elasticsearch
     ports:
       - "9200:9200"

@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getRestaurantById,
   getRestaurantsCategory,
+  getVisitsRestaurantEvents,
 } from "../state/restaurant/Action";
 import { getMenuItemsByRestaurantId } from "../state/menu/Action";
 import EventsCard from "./EventsCard";
@@ -77,7 +78,7 @@ const RestaurantDetails = () => {
   const handleOpenModal = () => {
     setOpenModal(true);
     // 모달 열릴 때 이벤트 데이터 가져오기 (필요 시)
-    dispatch(getRestaurantEvents({ jwt, restaurantId: id }));
+    dispatch(getVisitsRestaurantEvents({ jwt, restaurantId: id }));
   };
 
   const handleCloseModal = () => setOpenModal(false);
