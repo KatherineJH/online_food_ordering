@@ -1,15 +1,25 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getOrderReview } from "../state/order/Action";
+import { useDispatch } from "react-redux";
+import ReviewModal from "./ReviewModal";
 
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const [openModal, setOpenModal] = useState(false);
 
   const handlePredictClick = () => {
+    const jwt = localStorage.getItem("jwt"); 
     if (order.reviews && order.reviews.length > 0) {
-      alert("이미 리뷰가 작성된 주문입니다.");
+      // console.log("🔍 리뷰 요청:", order.id, jwt); // 로그 확인
+      dispatch(getOrderReview(order.id, jwt));
+      setOpenModal(true); 
       return;
     }
+    // 리뷰 없는 경우 리뷰 작성(예측 ML 페이지) 이동
     navigate("/predict", {
       state: {
         orderId: order.id,
@@ -22,17 +32,10 @@ const OrderCard = ({ order }) => {
     <Card className="p-5">
       <CardContent>
         <Typography variant="h6">Order #{order.id}</Typography>
-        {/* <Typography variant="body2" color="text.secondary">
-          Customer: {order.customer?.fullName || "N/A"}
-        </Typography> */}
         <Typography variant="body2" color="text.secondary">
           Total Price: ₩{order.totalPrice}
         </Typography>
-        {/* <Typography variant="body2" color="text.secondary">
-          Status: {order.orderStatus}
-        </Typography> */}
 
-        {/* 주문 아이템 목록 */}
         <div className="mt-3 space-y-3">
           {order.items.map((item, index) => (
             <div
@@ -57,7 +60,6 @@ const OrderCard = ({ order }) => {
                 onClick={handlePredictClick}
                 disabled={order.orderStatus !== "COMPLETED"}
               >
-                {/* {order.orderStatus} */}
                 {order.reviews?.length > 0
                   ? "Review Complete"
                   : order.orderStatus}
@@ -66,6 +68,13 @@ const OrderCard = ({ order }) => {
           ))}
         </div>
       </CardContent>
+
+      {/* 리뷰 모달 */}
+      <ReviewModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        review={order.reviews?.[0]} // 첫 번째 리뷰만 표시
+      />
     </Card>
   );
 };

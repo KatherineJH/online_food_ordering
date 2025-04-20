@@ -125,7 +125,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         // set restaurant details to dto(식당 정보를 RestaurantDto에 세팅)
         dto.setDescription(restaurant.getDescription());
         dto.setImages(restaurant.getImages());
-        dto.setTitle(restaurant.getName());
+        dto.setName(restaurant.getName());
         dto.setId(restaurantId);
 
         boolean isFavorited = false;
@@ -155,5 +155,23 @@ public class RestaurantServiceImpl implements RestaurantService {
         // restaurant이 열려있으면 close, 닫혀있으면 open
         restaurant.setOpen(!restaurant.isOpen());
         return restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public List<RestaurantDto> getFavoriteRestaurants(User user) {
+        List<RestaurantDto> rawFavorites = user.getFavorites();
+
+        return rawFavorites.stream().map(dto -> {
+            if (dto.getName() == null || dto.getOpen() == null) {
+                try {
+                    Restaurant restaurant = findRestaurantById(dto.getId());
+                    if (dto.getName() == null) dto.setName(restaurant.getName());
+                    if (dto.getOpen() == null) dto.setOpen(restaurant.isOpen());
+                } catch (Exception e) {
+                    throw new RuntimeException("레스토랑 정보 조회 실패 (id=" + dto.getId() + ")", e);
+                }
+            }
+            return dto;
+        }).toList();
     }
 }

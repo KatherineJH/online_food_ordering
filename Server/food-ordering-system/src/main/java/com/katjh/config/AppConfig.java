@@ -33,8 +33,9 @@ public class AppConfig {
                                 Authorize.requestMatchers("/api/admin/**")
                                         .hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                                         .requestMatchers(
-                                                "/api/restaurant/visitor/**",
-                                                "/api/search/**") // 여기에 visitor 경로 추가
+                                                "/api/auth/**",
+                                                "/api/restaurant/**",
+                                                "/api/search/**") 
                                         .permitAll()
                                         .requestMatchers("/api/**")
                                         .authenticated()
@@ -51,7 +52,11 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration corsConfig = new CorsConfiguration();
-                corsConfig.setAllowedOrigins(List.of("http://localhost:5173"));
+                corsConfig.setAllowedOrigins(
+                        List.of(
+                                "http://localhost:5173",
+                                "http://localhost:8080",
+                                "https://a8d1-183-98-215-25.ngrok-free.app"));
                 corsConfig.setAllowedMethods(Collections.singletonList("*"));
                 corsConfig.setAllowCredentials(true);
                 corsConfig.setAllowedHeaders(Collections.singletonList("*"));

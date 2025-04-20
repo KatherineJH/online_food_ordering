@@ -19,27 +19,35 @@ import {
 const MenuTable = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant, ingredient, menu } = useSelector((store) => store);
+  const restaurant = useSelector((state) => state.restaurant);
+  const ingredient = useSelector((state) => state.ingredient);
+  const menu = useSelector((state) => state.menu);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!restaurant.usersRestaurant?.id) {
-      console.error("Restaurant ID is undefined");
+    const restaurantId = restaurant.usersRestaurant?.id;
+
+    if (!restaurantId) {
       return;
     }
-    console.log("Restaurant ID: ", restaurant.usersRestaurant.id); // 디버깅 로그 추가
+
+    console.log("Restaurant ID is now:", restaurantId);
 
     dispatch(
       getMenuItemsByRestaurantId({
         jwt,
-        restaurantId: restaurant.usersRestaurant.id,
+        restaurantId,
         vegetarian: false,
         nonVegetarian: false,
         seasonal: false,
         foodCategory: "",
       })
     );
-  }, []);
+  }, [
+    restaurant.usersRestaurant?.id, // ← re-run when the ID becomes defined
+    jwt, // ← in case your auth token changes
+    dispatch, // ← best practice for hooks
+  ]);
 
   const handleDeleteFood = (foodId) => {
     console.log("Handling delete for food ID:", foodId); // Check if this log shows up
@@ -85,8 +93,13 @@ const MenuTable = () => {
                   <TableCell align="right">{item.name}</TableCell>
 
                   <TableCell align="right">
-                    {item.ingredients.map((ingredient) => (
-                      <Chip label={ingredient.name} />
+                    {item.ingredients.map((ing) => (
+                      <Chip
+                        key={ing.id ?? ing.name} // use a stable id if you have one
+                        label={ing.name}
+                        size="small"
+                        sx={{ margin: "2px" }}
+                      />
                     ))}
                   </TableCell>
                   <TableCell align="right">₩ {item.price}</TableCell>
@@ -96,7 +109,7 @@ const MenuTable = () => {
                   <TableCell sx={{ textAlign: "center" }}>
                     <IconButton
                       color="primary"
-                      onClick={() => handleDeleteFood(item.id)} 
+                      onClick={() => handleDeleteFood(item.id)}
                     >
                       <DeleteIcon color="error" />
                     </IconButton>

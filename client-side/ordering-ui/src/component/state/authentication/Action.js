@@ -1,5 +1,4 @@
-import axios from "axios";
-import { api, API_URL } from "../../config/Api";
+import { api } from "../../config/Api";
 import {
   ADD_TO_FAVORITE_FAILURE,
   ADD_TO_FAVORITE_REQUEST,
@@ -19,8 +18,8 @@ import {
 export const registerUser = (reqData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   try {
-    const { data } = await axios.post(
-      `${API_URL}/auth/signup`,
+    const { data } = await api.post(
+      `/api/auth/signup`,
       reqData.userData
     );
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
@@ -40,8 +39,8 @@ export const registerUser = (reqData) => async (dispatch) => {
 export const loginUser = (reqData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
-    const { data } = await axios.post(
-      `${API_URL}/auth/signin`,
+    const { data } = await api.post(
+      `/api/auth/signin`,
       reqData.userData
     );
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
@@ -62,7 +61,7 @@ export const loginUser = (reqData) => async (dispatch) => {
 export const getUser = (jwt) => async (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
-    const { data } = await api.get(`${API_URL}/api/users/profile`, {
+    const { data } = await api.get(`/api/users/profile`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -80,8 +79,8 @@ export const addToFavorite =
   async (dispatch) => {
     dispatch({ type: ADD_TO_FAVORITE_REQUEST });
     try {
-      const { data } = await axios.put(
-        `${API_URL}/api/restaurant/${restaurantId}/add-favorite`,
+      const { data } = await api.put(
+        `/api/restaurant/${restaurantId}/add-favorite`,
         {},
         {
           headers: {

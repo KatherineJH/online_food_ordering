@@ -19,9 +19,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { elasticSearchRestaurant } from "../state/restaurant/Action";
 import axios from "axios";
+import { api } from "../config/Api";
 
 export const Navbar = () => {
-  const { auth, cart } = useSelector((store) => store);
+  // const { auth, cart } = useSelector((store) => store); // 렌더링 이슈
+  const auth = useSelector((store) => store.auth);
+  const cart = useSelector((store) => store.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,12 +47,16 @@ export const Navbar = () => {
 
   const handleAutocomplete = async (value) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5454/api/search/autocomplete?prefix=${value}`
-      );
-      setSuggestions(res.data);
+      const res = await api.get(`/api/search/autocomplete?prefix=${value}`);
+      // 👉 res.data가 배열인지 확인하고 아니면 빈 배열로 처리
+      if (Array.isArray(res.data)) {
+        setSuggestions(res.data);
+      } else {
+        setSuggestions([]);
+      }
     } catch (error) {
       console.error("Autocomplete error:", error);
+      setSuggestions([]); // 에러 시도 비워주기
     }
   };
 
@@ -104,14 +111,14 @@ export const Navbar = () => {
           </Paper>
 
           {/* 자동완성 결과 */}
-          {suggestions.length > 0 && (
+          {Array.isArray(suggestions) && suggestions.length > 0 && (
             <Paper
               className="absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto z-50"
               elevation={3}
             >
               <List>
-                {suggestions.map((suggestion, idx) => (
-                  <ListItem key={idx} disablePadding>
+                {suggestions.map((suggestion, index) => (
+                  <ListItem key={`${suggestion}-${index}`} disablePadding>
                     <ListItemButton onClick={() => handleSearch(suggestion)}>
                       <ListItemText primary={suggestion} />
                     </ListItemButton>

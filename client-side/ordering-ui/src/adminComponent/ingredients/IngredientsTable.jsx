@@ -8,8 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CreateFoodCategory from "../foodCategory/CreateFoodCategory";
 import Modal from "@mui/material/Modal";
 import CreateIngredientForm from "./CreateIngredientForm";
 import CreateIngredientCategory from "./CreateIngredientCategory";
@@ -36,15 +34,23 @@ const style = {
 const IngredientsTable = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant, ingredient } = useSelector((store) => store);
+  const restaurant = useSelector((state) => state.restaurant);
+  const ingredient = useSelector((state) => state.ingredient);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   useEffect(() => {
-    dispatch(
-      getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant.id })
-    );
-  }, []);
+    const restaurantId = restaurant.usersRestaurant?.id;
+
+    if (!restaurantId) return;
+
+    console.log("Loading ingredients for restaurant", restaurantId);
+    dispatch(getIngredientsOfRestaurant({ jwt, id: restaurantId }));
+  }, [
+    restaurant.usersRestaurant?.id, // re-run when the ID becomes available
+    jwt,
+    dispatch,
+  ]);
 
   const handleUpdateStock = (id) => {
     dispatch(updateStockOfIngredient({ id, jwt }));

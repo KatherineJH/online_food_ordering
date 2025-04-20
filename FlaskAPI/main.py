@@ -62,7 +62,7 @@ def generate_restaurant_name():
 def home():
     return "Restaurant Prediction App is running"
 
-# 리뷰 예측 API
+# 리뷰 예측 API >> 리뷰에 저장 됨
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
@@ -80,6 +80,29 @@ def predict():
     label = "Positive" if prob >= 0.5 else "Negative"
 
     return jsonify({"prediction": label, "probability": prob})
+
+# 리뷰 예측 테스트 API
+@app.route('/predict/test', methods=['POST'])
+def predict_test():
+    data = request.get_json()
+    review_text = data.get("review", "")
+
+    if not review_text:
+        return jsonify({"error": "리뷰가 없습니다."}), 400
+
+    # 기존과 동일한 전처리 및 예측 로직 사용
+    processed = preprocess(review_text)
+    vector = vectorizer.vectorize(processed)
+    x_data = torch.tensor(vector).unsqueeze(0).to(DEVICE)
+
+    y_pred = classifier(x_data.float())
+    prob = torch.sigmoid(y_pred).item()
+    label = "Positive" if prob >= 0.5 else "Negative"
+
+    return jsonify({
+        "prediction": label,
+        "confidence": prob
+    })
 
 # 상위 긍정 단어 반환 API
 @app.route("/top-words", methods=["GET"])
@@ -222,7 +245,7 @@ def rank_restaurants():
 #         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
 # curl -X POST http://localhost:5000/rank-restaurants -H "Content-Type: application/json" -d "{\"reviews\": [\"The food was amazing and the staff were so friendly!\", \"I hated the meal. It was cold and tasteless.\", \"Loved the spicy noodles and fresh ingredients!\", \"Service was awful, and I won’t come back.\"], \"ratings\": [\"Positive\", \"Negative\", \"Positive\", \"Negative\"]}"

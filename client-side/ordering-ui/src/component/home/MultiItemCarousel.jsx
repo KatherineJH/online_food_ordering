@@ -6,7 +6,6 @@ import { topMeals } from "./topMeals";
 import CarouselItem from "./CarouselItem";
 import Slider from "react-slick";
 
-
 const MultiItemCarousel = () => {
   const settings = {
     dots: true,
@@ -21,6 +20,14 @@ const MultiItemCarousel = () => {
 
   return (
     <div>
+      {/* slick 색상 조정: DarkTheme 사용 중에는 필요 없음 */}
+      <style>
+        {`
+          .slick-prev:before, .slick-next:before {
+            color: black !important;
+          }
+        `}
+      </style>
       <Slider {...settings}>
         {topMeals.map((item, index) => (
           <CarouselItem key={index} image={item.image} title={item.title} />

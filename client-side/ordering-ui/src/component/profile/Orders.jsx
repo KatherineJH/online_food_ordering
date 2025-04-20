@@ -22,7 +22,8 @@ const orderStatus = [
 ];
 
 const Orders = () => {
-  const { auth, order } = useSelector((store) => store);
+  const auth = useSelector((store) => store.auth);
+  const order = useSelector((store) => store.order);
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();

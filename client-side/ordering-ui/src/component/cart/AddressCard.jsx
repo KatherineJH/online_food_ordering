@@ -7,8 +7,8 @@ const AddressCard = ({ item, showButton, handleSelectAddress, handleOrderComplet
   return (
     <Card className="flex gap-5 w-64 p-5">
       <HomeIcon />
-      <div className="space-y-3 text-gray-400">
-        <h1 className="font-semibold text-lg text-white">{item.addressName}</h1>
+      <div className="space-y-3">
+        <h1 className="font-semibold text-lg">{item.addressName}</h1>
         <p>
           {item.streetAddress},{item.state}, {item.country}, {item.postalCode}
           {/* {`${address?.streetAddress} ${address?.city} ${address?.state} ${address?.zipCode}`} */}

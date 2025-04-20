@@ -2,19 +2,30 @@ package com.katjh.dto;
 
 import java.util.List;
 
+import com.katjh.model.Restaurant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
 @Data
-@Embeddable // RestaurantDto to be embedded as a part of 다른 엔티티(Mapped 대신에). 내장할 수 있게 해줌
-public class RestaurantDto { // DTO는 테이블 아니고 Entity도 아니고, 그냥 데이터 전달 객체. 다른 Entity의 일부로 내장 될 것임.
-
-    private String title;
+@Embeddable
+public class RestaurantDto {
+    private Long id;
+    private String name;
+    private Boolean open;
 
     @Column(length = 1000)
     private List<String> images;
 
     private String description;
-    private Long id;
+
+    public static RestaurantDto from(Restaurant restaurant) {
+        RestaurantDto dto = new RestaurantDto();
+        dto.setId(restaurant.getId());
+        dto.setName(restaurant.getName());
+        dto.setOpen(restaurant.isOpen());
+        dto.setImages(restaurant.getImages());
+        dto.setDescription(restaurant.getDescription());
+        return dto;
+    }
 }

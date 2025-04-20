@@ -2,8 +2,9 @@ import * as actionType from "./ActionType";
 
 const initialState = {
   restaurants: [],
-  usersRestaurant: null,
+  usersRestaurant: [],
   restaurant: null,
+  favorites: [],
   loading: false,
   error: null,
   events: [],
@@ -24,6 +25,7 @@ const restaurantReducer = (state = initialState, action) => {
     case actionType.GET_RESTAURANTS_CATEGORY_REQUEST:
     case actionType.GET_RESTAURANTS_EVENTS_REQUEST:
     case actionType.GET_ELASTICSEARCH_RESTAURANTS_REQUEST:
+    case actionType.GET_FAVORITE_RESTAURANTS_REQUEST:
       return {
         ...state,
         loading: true,
@@ -63,6 +65,12 @@ const restaurantReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         usersRestaurant: action.payload,
+      };
+    case actionType.GET_FAVORITE_RESTAURANTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        favorites: action.payload, // ✅ 올바른 위치로 저장
       };
     case actionType.DELETE_RESTAURANTS_SUCCESS:
       return {
@@ -132,6 +140,7 @@ const restaurantReducer = (state = initialState, action) => {
     case actionType.CREATE_CATEGORY_FAILURE:
     case actionType.GET_RESTAURANTS_CATEGORY_FAILURE:
     case actionType.GET_ELASTICSEARCH_RESTAURANTS_FAILURE:
+    case actionType.GET_FAVORITE_RESTAURANTS_FAILURE:
       return {
         ...state,
         loading: false,

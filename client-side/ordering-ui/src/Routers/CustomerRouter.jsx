@@ -6,8 +6,8 @@ import RestaurantDetails from "../component/restaurant/RestaurantDetails";
 import Cart from "../component/cart/Cart";
 import Profile from "../component/profile/Profile";
 import Auth from "../component/auth/Auth";
-import Predict from "../Predict";
 import { SearchPage } from "../component/restaurant/SearchPage";
+import Predict from "../component/review/Predict";
 
 const CustomerRouter = () => {
   return (

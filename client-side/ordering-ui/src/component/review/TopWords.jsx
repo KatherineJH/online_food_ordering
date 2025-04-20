@@ -1,3 +1,4 @@
+// 테스트 페이지
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Typography, Grid, Paper } from "@mui/material";
@@ -9,8 +10,12 @@ const TopWords = () => {
   useEffect(() => {
     const fetchWords = async () => {
       try {
+        // ❌ 로컬 개발 방식 (프론트에서 Flask를 직접 접근)
         const topResponse = await axios.get("http://localhost:5000/top-words");
         const worstResponse = await axios.get("http://localhost:5000/worst-words");
+        // // ✅ 수정된 방식 (NGINX 통해 접근)
+        // const topResponse = await axios.get("http://localhost:8080/flask/top-words");
+        // const worstResponse = await axios.get("http://localhost:8080/flask/worst-words");
         setTopWords(topResponse.data.top_influential_words);
         setWorstWords(worstResponse.data.bottom_influential_words);
       } catch (error) {
@@ -28,7 +33,9 @@ const TopWords = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h6" gutterBottom>Top 20 Positive Words</Typography>
+            <Typography variant="h6" gutterBottom>
+              Top 20 Positive Words
+            </Typography>
             <ul>
               {topWords.map((word, idx) => (
                 <li key={idx}>{word}</li>
@@ -38,7 +45,9 @@ const TopWords = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h6" gutterBottom>Top 20 Negative Words</Typography>
+            <Typography variant="h6" gutterBottom>
+              Top 20 Negative Words
+            </Typography>
             <ul>
               {worstWords.map((word, idx) => (
                 <li key={idx}>{word}</li>

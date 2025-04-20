@@ -42,13 +42,14 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurants, HttpStatus.OK);
     }
 
+    // 비회원도 조회 할 수 있도록 수정
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> findRestaurantById(
-            @RequestHeader("Authorization") String token, @PathVariable Long id) throws Exception {
-
-        User user = userService.findUserByJwtToken(token);
+//            @RequestHeader("Authorization") String token,
+            @PathVariable Long id) throws Exception {
+//        User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.findRestaurantById(id);
-        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
     // id here is the restaurant id
@@ -60,5 +61,15 @@ public class RestaurantController {
 
         RestaurantDto restaurant = restaurantService.addToFavorites(id, user);
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<List<RestaurantDto>> getFavoriteRestaurants(
+            @RequestHeader("Authorization") String token) throws Exception {
+
+        User user = userService.findUserByJwtToken(token);
+        List<RestaurantDto> favorites = restaurantService.getFavoriteRestaurants(user);
+
+        return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 }

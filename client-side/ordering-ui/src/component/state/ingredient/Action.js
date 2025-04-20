@@ -1,14 +1,8 @@
-/**
- * Action.js
- */
-import axios from "axios";
 import { api } from "../../config/Api";
 import {
-  CREATE_INGREDIENT_CATEGORY_FAILURE,
   CREATE_INGREDIENT_CATEGORY_SUCCESS,
   CREATE_INGREDIENT_SUCCESS,
   GET_INGREDIENTS,
-  GET_INGREDIENT_CATEGORY_FAILURE,
   GET_INGREDIENT_CATEGORY_SUCCESS,
   UPDATE_STOCK,
 } from "./ActionType";

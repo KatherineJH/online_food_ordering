@@ -65,7 +65,7 @@ const MenuCard = ({ item }) => {
           <div className="flex gap-5 flex-wrap">
             {Object.keys(categorizedIngredients(item.ingredients))?.map(
               (category) => (
-                <div>
+                <div key={category}>
                   <p>{category}</p>
                   <FormGroup>
                     {categorizedIngredients(item?.ingredients)[category].map(
