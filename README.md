@@ -26,18 +26,18 @@
 - 아래의 순서는 각 서비스를 도커 컨테이너에 올리지 않는 버전 코드를 로컬에서 실행하는 단계입니다.
 - 컨테이너에 올리기 위한 일부 코드들이 현재는 주석 처리 되어있으며, 배포 전 단계이기 때문에 불필요하다 판단되어 아래의 순서로 안내 드립니다.
 1. FlaskAPI(E-OrderingFood\online_food_ordering\FlaskAPI)
-   > > python -m venv venv (최초 시도 시) <br>
-   > > venv\Scripts\activate <br>
-   > > pip install -r requirements.txt <br>
-   > > python main.py  <br>
+   > `> python -m venv venv (최초 시도 시) <br>
+   > `> venv\Scripts\activate <br>
+   > `> pip install -r requirements.txt <br>
+   > `> python main.py  <br>
 2. Elastic Search(E-OrderingFood 디렉토리에서)
-   > > docker-compose up --build <br>
+   > `> docker-compose up --build <br>
 3. React(E-OrderingFood\online_food_ordering\client-side\ordering-ui)
-   > > npm install <br>
-   > > npm run dev <br>
+   > `> npm install <br>
+   > `> npm run dev <br>
 4. MySql: 자유롭게 DB 이름 설정 및 아이디와 암호를 넣어주세요.
 5. Spring Boot(E-OrderingFood\online_food_ordering\Server\food-ordering-system)
-   > > gradlew bootRun <br>
+   > `> gradlew bootRun <br>
 
 
 # 어드민 대시보드 따로 디자인
