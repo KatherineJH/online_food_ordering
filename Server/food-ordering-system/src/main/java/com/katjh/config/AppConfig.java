@@ -34,8 +34,8 @@ public class AppConfig {
                                         .hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                                         .requestMatchers(
                                                 "/api/auth/**",
-                                                "/api/restaurant/visitor/**",
-                                                "/api/search/**") // 여기에 visitor 경로 추가
+                                                "/api/restaurant/**",
+                                                "/api/search/**") 
                                         .permitAll()
                                         .requestMatchers("/api/**")
                                         .authenticated()

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.katjh.dto.ReviewResponseDto;
 import org.springframework.stereotype.Service;
 
 import com.katjh.model.*;
@@ -14,7 +15,6 @@ import com.katjh.request.OrderRequest;
 import com.katjh.service.CartService;
 import com.katjh.service.OrderService;
 import com.katjh.service.RestaurantService;
-import com.katjh.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final RestaurantService restaurantService;
     private final CartService cartService;
-    private final UserService userService;
+    private final ReviewRepository reviewRepository;
 
     /**
      * Create a new order(최종 주문)
@@ -140,5 +140,25 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("Order not found");
         }
         return optionalOrder.get();
+    }
+
+    @Override
+    public ReviewResponseDto getOrderReview(Long reviewId, User user) throws Exception {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new Exception("해당 리뷰를 찾을 수 없습니다."));
+
+        if (!review.getUser().getId().equals(user.getId())) {
+            throw new Exception("접근 권한이 없습니다.");
+        }
+
+        int starRating = (int) Math.ceil(review.getPercentage() / 20.0); // ⭐️ 0~100 → 1~5
+
+        ReviewResponseDto dto = new ReviewResponseDto();
+        dto.setId(review.getId());
+        dto.setContent(review.getContent());
+        dto.setRating(starRating); // 숫자 rating으로 설정!
+        dto.setPercentage(review.getPercentage());
+
+        return dto;
     }
 }

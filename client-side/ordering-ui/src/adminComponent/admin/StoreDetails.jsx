@@ -7,81 +7,73 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateRestaurantStatus } from "../../component/state/restaurant/Action";
 
 const StoreDetails = () => {
-  const { restaurant } = useSelector((store) => store);
+  const restaurant = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
 
   const handleRestaurantStatus = () => {
+    const id = restaurant.usersRestaurant?.id;
+    if (!id) return;
     dispatch(
       updateRestaurantStatus({
-        restaurantId: restaurant.usersRestaurant.id,
+        restaurantId: id,
         jwt: localStorage.getItem("jwt"),
       })
     );
   };
+
   return (
     <div className="lg:px-20 px-5 pb-10">
       <div className="py-5 flex justify-center items-center gap-5">
         <h1 className="text-2xl lg:text-7xl text-center font-bold p-5">
-          Korean Bunsik Food
+          {restaurant.usersRestaurant?.name || "Restaurant"}
         </h1>
-        <div>
-          <Button
-            color={!restaurant.usersRestaurant?.open ? "primary" : "error"}
-            className="py-[1rem] px-[2rem]"
-            variant="contained"
-            onClick={handleRestaurantStatus}
-            size="large"
-          >
-            {restaurant.usersRestaurant?.open ? "want close?" : "want open?"}
-          </Button>
-        </div>
+        <Button
+          color={!restaurant.usersRestaurant?.open ? "primary" : "error"}
+          className="py-[1rem] px-[2rem]"
+          variant="contained"
+          onClick={handleRestaurantStatus}
+          size="large"
+        >
+          {restaurant.usersRestaurant?.open ? "want close?" : "want open?"}
+        </Button>
       </div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Card>
-            <CardHeader
-              title={<span className="text-gray-300">Restaurant</span>}
-            />
+            <CardHeader title={<span>Restaurant</span>} />
             <CardContent>
-              <div className="space-y-4 text-gray-200">
+              <div className="space-y-4">
                 <div className="flex">
                   <p className="w-48">Owner</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.owner?.fullName}
-                  </p>
-                </div>
-                <div className="flex">
-                  <p className="w-48">Restaurant Name</p>
-                  <p className="text-gray-400">
-                    <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.name}
+                    {restaurant.usersRestaurant?.owner?.fullName || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Cuisine Type</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.cuisineType}
+                    {restaurant.usersRestaurant?.cuisineType || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Opening Hours</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.openingHours}
+                    {restaurant.usersRestaurant?.openingHours || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Status</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
                     {restaurant.usersRestaurant?.open ? (
-                      <span className="px-5 py-2 rounded-full bg-green-400 text-gray-950">
+                      <span className="px-5 py-2 rounded-full bg-green-400">
                         Open
                       </span>
                     ) : (
-                      <span className="px-5 py-2 rounded-full bg-red-400 text-gray-950">
+                      <span className="px-5 py-2 rounded-full bg-red-400">
                         Closed
                       </span>
                     )}
@@ -93,37 +85,36 @@ const StoreDetails = () => {
         </Grid>
         <Grid item xs={12} lg={6}>
           <Card>
-            <CardHeader
-              title={<span className="text-gray-300">Address</span>}
-            />
+            <CardHeader title={<span>Address</span>} />
             <CardContent>
-              <div className="space-y-4 text-gray-200">
+              <div className="space-y-4">
                 <div className="flex">
                   <p className="w-48">Country</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.address?.country}
+                    {restaurant.usersRestaurant?.address?.country || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">City</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.address?.city}
+                    {restaurant.usersRestaurant?.address?.city || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
-                  <p className="w-48">Posttal Code</p>
-                  <p className="text-gray-400">
+                  <p className="w-48">Postal Code</p>
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.address?.postalCode}
+                    {restaurant.usersRestaurant?.address?.postalCode || "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Street Address</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.address?.streetAddress}
+                    {restaurant.usersRestaurant?.address?.streetAddress ||
+                      "N/A"}
                   </p>
                 </div>
               </div>
@@ -132,50 +123,60 @@ const StoreDetails = () => {
         </Grid>
         <Grid item xs={12} lg={6}>
           <Card>
-            <CardHeader
-              title={<span className="text-gray-300">Contact</span>}
-            />
+            <CardHeader title={<span>Contact</span>} />
             <CardContent>
-              <div className="space-y-4 text-gray-200">
+              <div className="space-y-4">
                 <div className="flex">
                   <p className="w-48">Email</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.contactInformation.email}
+                    {restaurant.usersRestaurant?.contactInformation?.email ||
+                      "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Mobile</p>
-                  <p className="text-gray-400">
+                  <p>
                     <span className="pr-5">-</span>
-                    {restaurant.usersRestaurant?.contactInformation.mobile}
+                    {restaurant.usersRestaurant?.contactInformation?.mobile ||
+                      "N/A"}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Social</p>
-                  <div className="flex text-gray-400 items-center pb-3 gap-3">
+                  <div className="flex items-center pb-3 gap-3">
                     <span className="pr-5">-</span>
-                    <a
-                      href={
-                        restaurant.usersRestaurant?.contactInformation.twitter
-                      }
-                    >
-                      <InstagramIcon sx={{ fontSize: "2rem" }} />
-                    </a>
-                    <a
-                      href={
-                        restaurant.usersRestaurant?.contactInformation.instagram
-                      }
-                    >
-                      <FacebookIcon sx={{ fontSize: "2rem" }} />
-                    </a>
-                    <a
-                      href={
-                        restaurant.usersRestaurant?.contactInformation.twitter
-                      }
-                    >
-                      <XIcon sx={{ fontSize: "2rem" }} />
-                    </a>
+                    {restaurant.usersRestaurant?.contactInformation
+                      ?.instagram && (
+                      <a
+                        href={
+                          restaurant.usersRestaurant.contactInformation
+                            .instagram
+                        }
+                      >
+                        <InstagramIcon sx={{ fontSize: "2rem" }} />
+                      </a>
+                    )}
+                    {restaurant.usersRestaurant?.contactInformation
+                      ?.facebook && (
+                      <a
+                        href={
+                          restaurant.usersRestaurant.contactInformation.facebook
+                        }
+                      >
+                        <FacebookIcon sx={{ fontSize: "2rem" }} />
+                      </a>
+                    )}
+                    {restaurant.usersRestaurant?.contactInformation
+                      ?.twitter && (
+                      <a
+                        href={
+                          restaurant.usersRestaurant.contactInformation.twitter
+                        }
+                      >
+                        <XIcon sx={{ fontSize: "2rem" }} />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

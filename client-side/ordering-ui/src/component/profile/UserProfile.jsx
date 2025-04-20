@@ -11,14 +11,14 @@ const initialValues = {
 };
 
 const UserProfile = () => {
-  const {auth}=useSelector(store=>store)
+  const auth = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout=()=>{
-    navigate("/")
+  const handleLogout = () => {
+    navigate("/");
     dispatch(logout());
-  }
+  };
 
   return (
     <div className="min-h-[80vh] flex flex-col justify-center items-center text-center">
@@ -28,7 +28,7 @@ const UserProfile = () => {
         <p>Email : {auth.user?.email}</p>
         <Button
           variant="contained"
-          onClick={handleLogout} 
+          onClick={handleLogout}
           sx={{ margin: "2rem 0rem" }}
         >
           Log Out

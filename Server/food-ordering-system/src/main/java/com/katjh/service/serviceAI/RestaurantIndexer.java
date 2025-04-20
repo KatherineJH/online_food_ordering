@@ -69,6 +69,7 @@ import com.katjh.repository.RestaurantRepository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -77,6 +78,7 @@ public class RestaurantIndexer {
     private final RestaurantRepository restaurantRepository;
     private final ElasticsearchClient elasticsearchClient;
 
+    @Transactional(readOnly = true)
     public void indexAllRestaurants() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
 

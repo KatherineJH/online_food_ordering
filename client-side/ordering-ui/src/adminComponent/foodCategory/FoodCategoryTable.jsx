@@ -26,7 +26,8 @@ const style = {
 };
 
 const FoodCategoryTable = () => {
-  const { auth, restaurant } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
+  const restaurant = useSelector((state) => state.restaurant);
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
 
@@ -37,15 +38,21 @@ const FoodCategoryTable = () => {
   console.log("Restaurant category", restaurant.categories);
 
   useEffect(() => {
-    if (restaurant.usersRestaurant) {
-      dispatch(
-        getRestaurantsCategory({
-          jwt: auth.jwt || jwt,
-          id: restaurant.usersRestaurant?.id,
-        })
-      );
-    }
-  }, []);
+    const restaurantId = restaurant.usersRestaurant?.id;
+    if (!restaurantId) return;
+    console.log("Loading categories for restaurant", restaurantId);
+    dispatch(
+      getRestaurantsCategory({
+        jwt: auth.jwt || jwt,
+        id: restaurantId,
+      })
+    );
+  }, [
+    restaurant.usersRestaurant?.id, // re-run when ID becomes available
+    auth.jwt, // in case your token comes via Redux
+    jwt, // or from localStorage
+    dispatch,
+  ]);
 
   return (
     <Box>
@@ -74,7 +81,7 @@ const FoodCategoryTable = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                  {item.id}
+                    {item.id}
                   </TableCell>
                   <TableCell align="left">{item.name}</TableCell>
                 </TableRow>

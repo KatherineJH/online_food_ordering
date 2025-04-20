@@ -62,7 +62,7 @@ def generate_restaurant_name():
 def home():
     return "Restaurant Prediction App is running"
 
-# 리뷰 예측 API
+# 리뷰 예측 API >> 리뷰에 저장 됨
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
@@ -80,6 +80,29 @@ def predict():
     label = "Positive" if prob >= 0.5 else "Negative"
 
     return jsonify({"prediction": label, "probability": prob})
+
+# 리뷰 예측 테스트 API
+@app.route('/predict/test', methods=['POST'])
+def predict_test():
+    data = request.get_json()
+    review_text = data.get("review", "")
+
+    if not review_text:
+        return jsonify({"error": "리뷰가 없습니다."}), 400
+
+    # 기존과 동일한 전처리 및 예측 로직 사용
+    processed = preprocess(review_text)
+    vector = vectorizer.vectorize(processed)
+    x_data = torch.tensor(vector).unsqueeze(0).to(DEVICE)
+
+    y_pred = classifier(x_data.float())
+    prob = torch.sigmoid(y_pred).item()
+    label = "Positive" if prob >= 0.5 else "Negative"
+
+    return jsonify({
+        "prediction": label,
+        "confidence": prob
+    })
 
 # 상위 긍정 단어 반환 API
 @app.route("/top-words", methods=["GET"])

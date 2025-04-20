@@ -25,30 +25,17 @@ const Admin = () => {
   const [openSideBar, setOpenSideBar] = useState(false);
   const handleOpenSideBar = () => setOpenSideBar(true);
   const handleCloseSideBar = () => setOpenSideBar(false);
-  const { auth, restaurant, ingredients } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
+  const restaurantId = useSelector(
+    (state) => state.restaurant.usersRestaurant?.id
+  );
+  const jwtToken = useSelector((state) => state.auth.jwt) || jwt;
   useEffect(() => {
-    if (restaurant.usersRestaurant) {
-      // dispatch(
-      //   getIngredientCategory({ jwt, id: restaurant.usersRestaurant?.id })
-      // );
-      // dispatch(
-      //   getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant?.id })
-      // );
-      dispatch(
-        getRestaurantsCategory({
-          jwt: auth.jwt || jwt,
-          id: restaurant.usersRestaurant?.id,
-        })
-      );
-      dispatch(
-        fetchRestaurantsOrder({
-          restaurantId: restaurant.usersRestaurant?.id,
-          jwt: auth.jwt || jwt,
-        })
-      );
+    if (restaurantId) {
+      dispatch(getRestaurantsCategory({ jwt: jwtToken, id: restaurantId }));
+      dispatch(fetchRestaurantsOrder({ restaurantId, jwt: jwtToken }));
     }
-  }, [restaurant.usersRestaurant]);
+  }, [restaurantId, jwtToken]);
   return (
     <div>
       <div className="lg:flex justify-between">

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { api } from "../../config/Api";
 import {
   UPDATE_ORDER_STATUS_REQUEST,

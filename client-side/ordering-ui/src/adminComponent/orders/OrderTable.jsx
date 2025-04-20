@@ -33,8 +33,10 @@ const orderStatus = [
 const OrderTable = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant, auth, adminRestaurantOrder } = useSelector(
-    (store) => store
+  const restaurant = useSelector((state) => state.restaurant);
+  const auth = useSelector((state) => state.auth);
+  const adminRestaurantOrder = useSelector(
+    (state) => state.adminRestaurantOrder
   );
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -52,7 +54,6 @@ const OrderTable = () => {
     setSelectedOrderId(null); // 선택된 주문 ID 초기화
   };
 
-
   const handleUpdateOrder = (orderStatus) => {
     if (selectedOrderId) {
       dispatch(
@@ -62,14 +63,27 @@ const OrderTable = () => {
     handleClose();
   };
 
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchRestaurantsOrder({
+  //       restaurantId: restaurant.id,
+  //       jwt,
+  //     })
+  //   );
+  // }, []);
   useEffect(() => {
-    dispatch(
-      fetchRestaurantsOrder({
-        restaurantId: restaurant.usersRestaurant?.id,
-        jwt,
-      })
-    );
-  }, []);
+    const restaurantId = restaurant?.usersRestaurant?.id;
+    console.log("restaurantId", restaurantId);
+
+    if (restaurantId && jwt) {
+      dispatch(
+        fetchRestaurantsOrder({
+          restaurantId,
+          jwt,
+        })
+      );
+    }
+  }, [restaurant, jwt]);
 
   return (
     <Box>
@@ -92,7 +106,7 @@ const OrderTable = () => {
             <TableBody>
               {adminRestaurantOrder.orders.map((item) => (
                 <TableRow
-                  key={item.name}
+                  key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -101,7 +115,10 @@ const OrderTable = () => {
                   <TableCell align="right">
                     <AvatarGroup>
                       {item.items.map((orderItem) => (
-                        <Avatar src={orderItem.food?.images[0]} />
+                        <Avatar
+                          key={orderItem.id}
+                          src={orderItem.food?.images[0]}
+                        />
                       ))}
                     </AvatarGroup>
                   </TableCell>
@@ -110,15 +127,20 @@ const OrderTable = () => {
                   <TableCell align="right">{item?.totalPrice}</TableCell>
                   <TableCell align="right">
                     {item.items.map((orderItem) => (
-                      <p>{orderItem.food?.name}</p>
+                      <p key={`name-${item.id}-${orderItem.id}`}>
+                        {orderItem.food?.name}
+                      </p>
                     ))}
                   </TableCell>
 
                   <TableCell align="right">
                     {item.items.map((orderItem) => (
-                      <div>
-                        {orderItem.ingredients.map((ingredient) => (
-                          <Chip label={ingredient} />
+                      <div key={orderItem.id}>
+                        {orderItem.ingredients.map((ingredient, idx) => (
+                          <Chip
+                            key={`ingredient-${item.id}-${orderItem.id}-${idx}`}
+                            label={ingredient}
+                          />
                         ))}
                       </div>
                     ))}

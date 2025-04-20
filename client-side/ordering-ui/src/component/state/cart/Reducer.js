@@ -1,4 +1,4 @@
-// Reducers.js
+// reducers/cartReducer.js
 import { LOGOUT } from "../authentication/ActionType";
 import * as actionTypes from "./ActionType";
 
@@ -20,49 +20,92 @@ const cartReducer = (state = initialState, action) => {
         loading: true,
         error: null,
       };
+
     case actionTypes.FIND_CART_SUCCESS:
     case actionTypes.CLEARE_CART_SUCCESS:
       return {
         ...state,
         loading: false,
         cart: action.payload,
-        cartItems: action.payload.items,
+        cartItems: action.payload.item,
       };
-    case actionTypes.ADD_ITEM_TO_CART_SUCCESS:
+
+    case actionTypes.ADD_ITEM_TO_CART_SUCCESS: {
+      const updatedItems = [action.payload, ...state.cartItems];
+      const newTotal = updatedItems.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+      );
       return {
         ...state,
         loading: false,
-        cartItems: [action.payload, ...state.cartItems],
+        cartItems: updatedItems,
+        cart: {
+          ...state.cart,
+          item: updatedItems,
+          total: newTotal,
+        },
       };
-    case actionTypes.UPDATE_CARTITEM_SUCCESS:
+    }
+
+    case actionTypes.UPDATE_CARTITEM_SUCCESS: {
+      const updatedItems = state.cartItems.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+      const newTotal = updatedItems.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+      );
       return {
         ...state,
         loading: false,
-        cartItems: state.cartItems.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        ),
+        cartItems: updatedItems,
+        cart: {
+          ...state.cart,
+          item: updatedItems,
+          total: newTotal,
+        },
       };
-    case actionTypes.REMOVE_CARTITEM_SUCCESS:
+    }
+
+    case actionTypes.REMOVE_CARTITEM_SUCCESS: {
+      const updatedItems = state.cartItems.filter(
+        (item) => item.id !== action.payload
+      );
+      const newTotal = updatedItems.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+      );
       return {
         ...state,
         loading: false,
-        cartItems: state.cartItems.filter((item) =>
-          item.id !== action.payload
-        ),
+        cartItems: updatedItems,
+        cart: {
+          ...state.cart,
+          item: updatedItems,
+          total: newTotal,
+        },
       };
+    }
+
     case actionTypes.FIND_CART_FAILURE:
     case actionTypes.UPDATE_CARTITEM_FAILURE:
     case actionTypes.REMOVE_CARTITEM_FAILURE:
-      // case actionTypes.GET_ALL_CART_ITEMS_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
 
-      case LOGOUT:
+    case LOGOUT:
       localStorage.removeItem("jwt");
-      return { ...state, cartItems:[],cart:null, success: "logout success" };
+      return {
+        ...state,
+        cart: null,
+        cartItems: [],
+        success: "logout success",
+      };
+
     default:
       return state;
   }

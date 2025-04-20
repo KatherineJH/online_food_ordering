@@ -86,6 +86,7 @@ export const updateCartItem = (reqData) => {
       });
       console.log("update cartItem ", data);
       dispatch({ type: UPDATE_CARTITEM_SUCCESS, payload: data });
+      dispatch(findCart(reqData.jwt)); // <- 수량 변경 이후 장바구니 전체 다시 불러오기
     } catch (error) {
       console.log("catch error ", error);
       dispatch({ type: UPDATE_CARTITEM_FAILURE, payload: error.message });

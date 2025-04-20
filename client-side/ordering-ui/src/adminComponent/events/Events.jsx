@@ -12,9 +12,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
@@ -45,7 +43,8 @@ const initialValues = {
 const Events = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth, restaurant } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
+  const restaurant = useSelector((state) => state.restaurant);
 
   const [image, setimage] = useState("");
   const [open, setOpen] = useState(false);
@@ -84,15 +83,24 @@ const Events = () => {
   };
 
   useEffect(() => {
-    if (restaurant.usersRestaurant) {
-      dispatch(
-        getRestaurantEvents({
-          jwt: auth.jwt || jwt,
-          restaurantId: restaurant.usersRestaurant?.id,
-        })
-      );
-    }
-  }, []);
+    const restaurantId = restaurant.usersRestaurant?.id;
+
+    // don’t dispatch until we actually know the ID
+    if (!restaurantId) return;
+
+    console.log("Loading events for restaurant", restaurantId);
+    dispatch(
+      getRestaurantEvents({
+        jwt: auth.jwt || jwt,
+        restaurantId,
+      })
+    );
+  }, [
+    restaurant.usersRestaurant?.id, // re‑run when the ID becomes defined
+    auth.jwt, // in case your Redux auth.jwt changes
+    jwt, // or your localStorage token changes
+    dispatch,
+  ]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">

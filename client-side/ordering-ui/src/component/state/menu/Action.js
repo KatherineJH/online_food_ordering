@@ -18,8 +18,6 @@ import {
   GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,
 } from "./ActionType";
 
-// localhost:5454/api/admin/ingredients/food/16
-
 export const createMenuItem = ({ menu, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_MENU_ITEM_REQUEST });
@@ -37,13 +35,28 @@ export const createMenuItem = ({ menu, jwt }) => {
     }
   };
 };
-
 export const getMenuItemsByRestaurantId = (reqData) => {
   return async (dispatch) => {
     dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
+
+    const params = new URLSearchParams();
+
+    if (reqData.vegetarian !== undefined) {
+      params.append("vegetarian", reqData.vegetarian);
+    }
+    if (reqData.nonVegetarian !== undefined) {
+      params.append("nonVegetarian", reqData.nonVegetarian);
+    }
+    if (reqData.seasonal !== undefined) {
+      params.append("seasonal", reqData.seasonal);
+    }
+    if (reqData.foodCategory !== undefined) {
+      params.append("food_category", reqData.foodCategory);
+    }
+
     try {
       const { data } = await api.get(
-        `/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonVegetarian=${reqData.nonVegetarian}&seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`,
+        `/api/food/restaurant/${reqData.restaurantId}?${params.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${reqData.jwt}`,
@@ -132,7 +145,7 @@ export const deleteFoodAction =
   async (dispatch) => {
     dispatch({ type: DELETE_MENU_ITEM_REQUEST });
     try {
-      console.log("Dispatching deleteFoodAction for ID: ", foodId);  // Debug log
+      console.log("Dispatching deleteFoodAction for ID: ", foodId); // Debug log
       const { data } = await api.delete(`/api/admin/food/${foodId}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,

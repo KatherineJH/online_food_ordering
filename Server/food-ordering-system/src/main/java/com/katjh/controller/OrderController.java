@@ -2,6 +2,7 @@ package com.katjh.controller;
 
 import java.util.List;
 
+import com.katjh.dto.ReviewResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +51,15 @@ public class OrderController {
         User user = userService.findUserByJwtToken(token);
         List<Order> orders = orderService.getUserOrder(user.getId());
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    // 리뷰
+    @GetMapping("/review/{id}")
+    public ResponseEntity<ReviewResponseDto> getOrderReview(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long id) throws Exception {
+        User user = userService.findUserByJwtToken(token);
+        ReviewResponseDto reviewDto = orderService.getOrderReview(id, user);
+        return new ResponseEntity<>(reviewDto, HttpStatus.OK);
     }
 }

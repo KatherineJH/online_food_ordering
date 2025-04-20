@@ -43,6 +43,9 @@ import {
   GET_ELASTICSEARCH_RESTAURANTS_SUCCESS,
   GET_ELASTICSEARCH_RESTAURANTS_FAILURE,
   RESET_SEARCHED_RESTAURANT_DETAILS,
+  GET_FAVORITE_RESTAURANTS_REQUEST,
+  GET_FAVORITE_RESTAURANTS_SUCCESS,
+  GET_FAVORITE_RESTAURANTS_FAILURE,
 } from "./ActionType";
 
 // export const gettAllRestaurantsAction = (token) => {
@@ -70,10 +73,8 @@ export const getRestaurantById = (reqData) => {
     dispatch({ type: GET_RESTAURANTS_BY_ID_REQUEST });
     try {
       const { data } = await api.get(`/api/restaurant/${reqData.id}`, {
-        headers: {
-          Authorization: `Bearer ${reqData.jwt}`,
-        },
-      });
+        headers: reqData.jwt ? { Authorization: `Bearer ${reqData.jwt}` } : {},
+      }); // 로그인 하지 않은 경우에는, jwt 확인 하지 않아도 됨.
       console.log(`${reqData.id} restaurant`, data);
 
       dispatch({ type: GET_RESTAURANTS_BY_ID_SUCCESS, payload: data });
@@ -269,7 +270,7 @@ export const getVisitsRestaurantEvents = ({ restaurantId }) => {
     dispatch({ type: GET_RESTAURANTS_EVENTS_REQUEST });
     try {
       const res = await api.get(
-        `/api/restaurant/visitor/events/${restaurantId}`,
+        `/api/restaurant/visitor/events/${restaurantId}`
       );
       console.log("get restaurants Events", res.data);
       dispatch({ type: GET_RESTAURANTS_EVENTS_SUCCESS, payload: res.data });
@@ -280,29 +281,11 @@ export const getVisitsRestaurantEvents = ({ restaurantId }) => {
   };
 };
 
-// export const createCategoryAction = ({ reqData, jwt }) => {
-//   return async (dispatch) => {
-//     dispatch({ type: CREATE_CATEGORY_REQUEST });
-//     try {
-//       const res = await api.post(`/api/admin/category/`, reqData, {
-//         headers: {
-//           Authorization: `Bearer ${jwt}`,
-//         },
-//       });
-//       console.log("get restaurants Events", res.data);
-//       dispatch({ type: CREATE_CATEGORY_SUCCESS, payload: res.data });
-//     } catch (error) {
-//       console.log("catch error ", error);
-//       dispatch({ type: CREATE_CATEGORY_FAILURE, payload: error });
-//     }
-//   };
-// };
-
 export const createCategoryAction = ({ reqData, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_CATEGORY_REQUEST });
     try {
-      const res = await api.post(`/api/admin/category/`, reqData, {
+      const res = await api.post(`/api/admin/category`, reqData, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -358,3 +341,21 @@ export const elasticSearchRestaurant = (keyword) => {
 export const resetSearchedRestaurantDetails = () => ({
   type: RESET_SEARCHED_RESTAURANT_DETAILS,
 });
+
+export const getFavoriteRestaurants = (jwt) => {
+  return async (dispatch) => {
+    dispatch({ type: GET_FAVORITE_RESTAURANTS_REQUEST });
+    try {
+      const { data } = await api.get(`/api/restaurant/favorites`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      console.log("즐겨찾기 레스토랑 목록", data);
+      dispatch({ type: GET_FAVORITE_RESTAURANTS_SUCCESS, payload: data });
+    } catch (error) {
+      console.log("즐겨찾기 불러오기 실패", error);
+      dispatch({ type: GET_FAVORITE_RESTAURANTS_FAILURE, payload: error });
+    }
+  };
+};

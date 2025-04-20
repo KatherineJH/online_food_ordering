@@ -22,7 +22,9 @@ import axios from "axios";
 import { api } from "../config/Api";
 
 export const Navbar = () => {
-  const { auth, cart } = useSelector((store) => store);
+  // const { auth, cart } = useSelector((store) => store); // 렌더링 이슈
+  const auth = useSelector((store) => store.auth);
+  const cart = useSelector((store) => store.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -45,7 +47,7 @@ export const Navbar = () => {
 
   const handleAutocomplete = async (value) => {
     try {
-      const res = await api.get(`/search/autocomplete?prefix=${value}`);
+      const res = await api.get(`/api/search/autocomplete?prefix=${value}`);
       // 👉 res.data가 배열인지 확인하고 아니면 빈 배열로 처리
       if (Array.isArray(res.data)) {
         setSuggestions(res.data);
@@ -115,8 +117,8 @@ export const Navbar = () => {
               elevation={3}
             >
               <List>
-                {suggestions.map((suggestion, idx) => (
-                  <ListItem key={idx} disablePadding>
+                {suggestions.map((suggestion, index) => (
+                  <ListItem key={`${suggestion}-${index}`} disablePadding>
                     <ListItemButton onClick={() => handleSearch(suggestion)}>
                       <ListItemText primary={suggestion} />
                     </ListItemButton>

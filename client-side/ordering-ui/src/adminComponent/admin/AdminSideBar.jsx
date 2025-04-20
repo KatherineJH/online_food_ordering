@@ -111,7 +111,7 @@ const AdminSideBar = () => {
         >
           <div className="w-[50vw] lg:w-[20vw] h-[100vh] flex flex-col justify-center text-xl pt-16 gap-8">
             {menu.map((item, i) => (
-              <>
+              <React.Fragment key={i}>
                 <div
                   onClick={() => handleNavigate(item)}
                   className="px-5 flex items-center gap-5 cursor-pointer"
@@ -120,7 +120,7 @@ const AdminSideBar = () => {
                   <span>{item.title}</span>
                 </div>
                 {i !== menu.length - 1 && <Divider />}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </Drawer>

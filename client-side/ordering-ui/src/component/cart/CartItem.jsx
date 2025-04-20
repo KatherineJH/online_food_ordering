@@ -1,55 +1,3 @@
-// import React from "react";
-// import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-// import { Chip, IconButton } from "@mui/material";
-// import { useDispatch, useSelector } from "react-redux";
-
-// const CartItem = ({ item }) => {
-//   const dispatch = useDispatch();
-//   const jwt = localStorage.getItem("jwt");
-//   const { auth } = useSelector((store) => store);
-//   console.log("CartItem item:", item);
-//   return (
-//     <div className="px-5">
-//       <div className="lg:flex items-center lg:space-x-5">
-//         <div>
-//           <img
-//             className="w-[5rem] h-[5rem] object-cover"
-//             src={item.food.images[0]}
-//             alt={item.food?.name}
-//           />
-//         </div>
-//         <div className="flex items-center justify-between lg:w-[70%]">
-//           <div className="space-y-1 lg:space-y-3 w-full">
-//             <p>{item.food?.name}</p>
-//             <div className="flex justify-between items-center">
-//               <div className="flex items-center space-x-1">
-//                 <IconButton>
-//                   <RemoveCircleOutlineIcon />
-//                 </IconButton>
-//                 <div className="w-5 h-5 text-xs flex items-center justify-center">
-//                   {item.quantity}
-//                 </div>
-//                 <IconButton>
-//                   <AddCircleOutlineIcon />
-//                 </IconButton>
-//               </div>
-//             </div>
-//           </div>
-//           <p>{item.totalPrice}</p>
-//         </div>
-//       </div>
-//       <div className="pt-3 space-x-2">
-//         {item.ingredients.map((ingredient, index) => (
-//           <Chip key={index} label={ingredient} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CartItem;
-
 import React from "react";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -60,18 +8,19 @@ import { removeCartItem, updateCartItem } from "../state/cart/Action";
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth, cart } = useSelector((store) => store);
-  console.log("CartItem item:", item);
 
   const handleUpdateCartItem = (value) => {
-    if (value === -1 && item.quantity == 1) {
+    if (value === -1 && item.quantity === 1) {
       handleRemoveCartItem();
+      return;
     }
-    const data = { cartItemId: item.id, quantity: item.quantity + value };
-    dispatch(updateCartItem({ data, jwt: auth.jwt || jwt }));
+    const updatedQuantity = item.quantity + value;
+    const data = { cartItemId: item.id, quantity: updatedQuantity };
+    dispatch(updateCartItem({ data, jwt }));
   };
+
   const handleRemoveCartItem = () => {
-    dispatch(removeCartItem({ cartItemId: item.id, jwt: auth.jwt || jwt }));
+    dispatch(removeCartItem({ cartItemId: item.id, jwt }));
   };
 
   return (
@@ -81,7 +30,7 @@ const CartItem = ({ item }) => {
           {item.food ? (
             <img
               className="w-[5rem] h-[5rem] object-cover"
-              src={item.food.images[0]}
+              src={item.food.images?.[0] || ""}
               alt={item.food.name}
             />
           ) : (
@@ -105,7 +54,7 @@ const CartItem = ({ item }) => {
               </div>
             </div>
           </div>
-          <p>₩ {item.totalPrice.toLocaleString()}</p>
+          <p>₩ {item.totalPrice?.toLocaleString() || 0}</p>
         </div>
       </div>
       <div className="pt-3 space-x-2">

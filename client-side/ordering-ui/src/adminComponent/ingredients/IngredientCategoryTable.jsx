@@ -31,14 +31,23 @@ const IngredientCategoryTable = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
-  const { restaurant, ingredient } = useSelector((store) => store);
+  const restaurant = useSelector((state) => state.restaurant);
+  const ingredient = useSelector((state) => state.ingredient);
   const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
-    dispatch(getIngredientCategory({ id: restaurant.usersRestaurant.id, jwt }));
-    console.log("Restaurant Ingredient category", restaurant.usersRestaurant);
-    
-  }, []);
+    const restaurantId = restaurant.usersRestaurant?.id;
+
+    // don’t dispatch until we actually know the ID
+    if (!restaurantId) return;
+
+    console.log("Loading ingredient categories for restaurant", restaurantId);
+    dispatch(getIngredientCategory({ id: restaurantId, jwt }));
+  }, [
+    restaurant.usersRestaurant?.id, // re-run when ID arrives
+    jwt,
+    dispatch,
+  ]);
   return (
     <Box>
       <Card className="mt-1 p-2">
@@ -66,7 +75,7 @@ const IngredientCategoryTable = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                  {item.id}
+                    {item.id}
                   </TableCell>
                   <TableCell align="left">{item.name}</TableCell>
                 </TableRow>

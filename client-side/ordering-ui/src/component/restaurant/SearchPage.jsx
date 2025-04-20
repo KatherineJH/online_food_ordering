@@ -12,7 +12,7 @@ export const SearchPage = () => {
   const dispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
   const keyword = searchParams.get("keyword");
-  const jwt = localStorage.getItem("jwt");
+  const jwt = localStorage.getItem("jwt") || null;
 
   const restaurant = useSelector((state) => state.restaurant);
   const searchResults = restaurant.restaurants || [];

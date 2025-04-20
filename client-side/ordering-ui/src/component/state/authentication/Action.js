@@ -1,5 +1,4 @@
-import axios from "axios";
-import { api, API_URL } from "../../config/Api";
+import { api } from "../../config/Api";
 import {
   ADD_TO_FAVORITE_FAILURE,
   ADD_TO_FAVORITE_REQUEST,

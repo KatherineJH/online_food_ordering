@@ -1,25 +1,16 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import "./App.css";
-import { Navbar } from "./component/navbar/Navbar";
-import { DarkTheme } from "./theme/DarkTheme";
-import Home from "./component/home/Home";
-import RestaurantDetails from "./component/restaurant/RestaurantDetails";
-import Cart from "./component/cart/Cart";
-import Profile from "./component/profile/Profile";
-import CustomerRouter from "./Routers/CustomerRouter";
-import Auth from "./component/auth/Auth";
+import { LightTheme } from "./theme/LightTheme";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUser } from "./component/state/authentication/Action";
 import { findCart } from "./component/state/cart/Action";
 import Routers from "./Routers/Routers";
 import { getRestaurantByUserId } from "./component/state/restaurant/Action";
-import { Route } from "react-router-dom";
-import Predict from "./Predict";
 
 function App() {
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((store) => store.auth);
   const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
@@ -28,15 +19,14 @@ function App() {
   }, [auth.jwt]);
 
   useEffect(() => {
-    dispatch(getRestaurantByUserId(auth.jwt || jwt));
-    // if (auth.user?.role == "ROLE_RESTAURANT_OWNER") {
-    //   dispatch(getRestaurantByUserId(auth.jwt || jwt));
-    // }
+    if (auth.user?.role === "ROLE_RESTAURANT_OWNER") {
+      dispatch(getRestaurantByUserId(auth.jwt || jwt));
+    }
   }, [auth.user]);
 
   return (
     <>
-      <ThemeProvider theme={DarkTheme}>
+      <ThemeProvider theme={LightTheme}>
         <CssBaseline />
         {/* <Navbar /> */}
         {/* <Home /> */}

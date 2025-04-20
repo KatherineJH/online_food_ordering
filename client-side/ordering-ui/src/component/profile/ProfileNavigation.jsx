@@ -47,7 +47,8 @@ const ProfileNavigation = ({ open, handleClose }) => {
         <div className="w-[50vw] lg:w-[20vw] h-[100vh] flex flex-col justify-center text-xl pt-16 gap-8">
           {/* 목록 시작 */}
           {menu.map((item, i) => (
-            <>
+            <React.Fragment key={item.titile}>
+              {" "}
               <div
                 onClick={() => handleNavigate(item)}
                 className="px-5 flex items-center space-x-5 cursor-pointer"
@@ -55,9 +56,8 @@ const ProfileNavigation = ({ open, handleClose }) => {
                 {item.icon}
                 <span>{item.titile}</span>
               </div>
-              {/* 모든 항목 뒤에 Divider 구분선-> 마지막은 Divider가 나타나지 않도록 -1 */}
               {i !== menu.length - 1 && <Divider />}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </Drawer>

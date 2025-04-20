@@ -3,15 +3,16 @@ import { useSelector } from "react-redux";
 import AddressCard from "../cart/AddressCard";
 
 const Address = () => {
-  const { auth } = useSelector((state) => state);
+  const auth = useSelector((state) => state.auth);
+
   return (
     <div>
       <div className="flex items-center flex-col lg:px-10">
         <h1 className="text-xl text-center py-7 font-semibold">Addresses</h1>
         <div className="flex gap-5 flex-wrap justify-center">
-          {auth.user?.addresses.map((item, index) => (
+          {auth.user?.addresses.map((item) => (
             <AddressCard
-              key={index}
+              key={item.id || item.city}
               item={item}
               showButton={true}
             />

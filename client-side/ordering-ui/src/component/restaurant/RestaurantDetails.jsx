@@ -48,7 +48,10 @@ const modalStyle = {
 const RestaurantDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { auth, restaurant, menu } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
+  const restaurant = useSelector((state) => state.restaurant);
+  const menu = useSelector((state) => state.menu);
+
   const jwt = localStorage.getItem("jwt");
   const { id, city } = useParams();
   console.log(id);
