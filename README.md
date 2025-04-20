@@ -1,5 +1,5 @@
 # 온라인 배달 웹앱 서비스
-![image](https://github.com/user-attachments/assets/7b599953-e644-45af-a224-ebb0836c8e56)
+![image](https://github.com/user-attachments/assets/49cd42e0-5100-4bdc-880a-a57643a397a4)
 
 ### Server Side
 - Spring Boot
@@ -36,3 +36,7 @@
 4. Spring Boot(E-OrderingFood\online_food_ordering\Server\food-ordering-system)
    > gradlew bootRun
 5. MySql: 자유롭게 DB 이름 설정 및 아이디와 암호를 넣어주세요.
+
+# 어드민 대시보드 따로 디자인
+![image](https://github.com/user-attachments/assets/c6033c50-f25c-426e-b851-ef172eda46d6)
+
