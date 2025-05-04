@@ -1,5 +1,6 @@
 package com.katjh.service.serviceAI;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -7,10 +8,13 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ElasticIndexCreator {
 
+    @Value("${base.url}")
+    private String baseUrl;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void createIndexManually() {
-        String url = "${BASE_URL}:9200/restaurants";
+        String url = baseUrl+":9200/restaurants";
 
         // 인덱스 존재 여부 확인
         try {

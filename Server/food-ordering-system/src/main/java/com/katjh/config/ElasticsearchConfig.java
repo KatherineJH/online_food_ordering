@@ -6,17 +6,21 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ElasticsearchConfig {
 
+    @Value("${ELASTIC_HOST}")
+    private String elasticHost;
+
     @Bean
     public ElasticsearchClient elasticsearchClient() {
         // Elasticsearch REST 클라이언트 설정
         RestClient restClient = RestClient.builder(
-                new HttpHost("${ELASTIC_HOST}", 9200, "http")
+                new HttpHost(elasticHost, 9200, "http")
         ).build();
 
         // Transport 및 클라이언트 생성
