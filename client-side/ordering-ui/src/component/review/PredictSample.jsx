@@ -4,7 +4,6 @@
  */
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { api } from "../config/Api";
 import axios from "axios";
 
 const PredictSample = () => {
@@ -14,9 +13,12 @@ const PredictSample = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/predict/test", {
-        review,
-      }); // 테스트 전용 엔드포인트
+      const response = await axios.post(
+         `${import.meta.env.VITE_SERVER_URL}:5000/predict/test`, // 테스트 전용 엔드포인트
+        {
+          review,
+        }
+      ); // 테스트 전용 엔드포인트
       setResult(response.data);
     } catch (error) {
       console.error("Prediction Error:", error);

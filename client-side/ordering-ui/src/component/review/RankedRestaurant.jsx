@@ -42,10 +42,11 @@ const RankedRestaurant = () => {
         ratings,
       };
       const response = await axios.post(
-        // ❌ 로컬 개발 방식 (프론트에서 Flask를 직접 접근)
-        "http://localhost:5000/rank-restaurants",
+        // // ❌ 로컬 개발 방식 (프론트에서 Flask를 직접 접근)
+        // "http://localhost:5000/rank-restaurants",
         // // ✅ 수정된 방식 (NGINX 통해 접근)
         // "http://localhost:8080/flask/rank-restaurants",
+        `${import.meta.env.VITE_SERVER_URL}:5000/rank-restaurants`,
         payload
       );
       setRankedData(response.data.restaurant_ranking);
