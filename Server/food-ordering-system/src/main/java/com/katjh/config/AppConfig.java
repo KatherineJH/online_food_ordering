@@ -3,6 +3,7 @@ package com.katjh.config;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
+
+    @Value("${base.url}")
+    private String baseUrl;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -54,8 +58,8 @@ public class AppConfig {
                 CorsConfiguration corsConfig = new CorsConfiguration();
                 corsConfig.setAllowedOrigins(
                         List.of(
-                                "${BASE_URL}:5173", // React
-                                "${BASE_URL}:8080", // Front via Nginx
+                                baseUrl + ":5173", // React
+                                baseUrl + ":8080", // Front via Nginx
                                 "https://kat-delivery.netlify.app/"));
                 corsConfig.setAllowedMethods(Collections.singletonList("*"));
                 corsConfig.setAllowCredentials(true);
