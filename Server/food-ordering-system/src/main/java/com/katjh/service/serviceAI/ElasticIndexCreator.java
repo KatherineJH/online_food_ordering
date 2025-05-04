@@ -10,7 +10,7 @@ public class ElasticIndexCreator {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void createIndexManually() {
-        String url = "http://localhost:9200/restaurants";
+        String url = "${BASE_URL}:9200/restaurants";
 
         // 인덱스 존재 여부 확인
         try {

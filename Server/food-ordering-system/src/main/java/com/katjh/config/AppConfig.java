@@ -54,9 +54,9 @@ public class AppConfig {
                 CorsConfiguration corsConfig = new CorsConfiguration();
                 corsConfig.setAllowedOrigins(
                         List.of(
-                                "http://localhost:5173",
-                                "http://localhost:8080",
-                                "https://a8d1-183-98-215-25.ngrok-free.app"));
+                                "${BASE_URL}:5173", // React
+                                "${BASE_URL}:8080", // Front via Nginx
+                                "https://kat-delivery.netlify.app/"));
                 corsConfig.setAllowedMethods(Collections.singletonList("*"));
                 corsConfig.setAllowCredentials(true);
                 corsConfig.setAllowedHeaders(Collections.singletonList("*"));

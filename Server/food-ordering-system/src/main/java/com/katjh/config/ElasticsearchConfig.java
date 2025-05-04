@@ -16,7 +16,7 @@ public class ElasticsearchConfig {
     public ElasticsearchClient elasticsearchClient() {
         // Elasticsearch REST 클라이언트 설정
         RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "http")
+                new HttpHost("${ELASTIC_HOST}", 9200, "http")
         ).build();
 
         // Transport 및 클라이언트 생성
