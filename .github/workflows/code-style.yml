@@ -53,17 +53,17 @@ jobs:
           node-version: "20"
 
       - name: Install Node.js dependencies
-        working-directory: client-app
+        working-directory: client-side/ordering-ui
         run: npm ci
 
       - name: Run Prettier check
-        working-directory: client-app
+        working-directory: client-side/ordering-ui
         run: npx prettier --check "**/*.html" "**/*.js" "**/*.css"
 
       - name: Grant execute permission for gradlew
-        working-directory: backend
+        working-directory: Server/food-ordering-system
         run: chmod +x gradlew
 
       - name: Run Spotless check
-        working-directory: backend
+        working-directory: Server/food-ordering-system
         run: ./gradlew spotlessCheck
