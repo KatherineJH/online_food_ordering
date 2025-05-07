@@ -21,6 +21,7 @@ jobs:
         script_stop: true
         script: |
           cd /home/ubuntu/online_food_ordering
+          git reset --hard HEAD
           git pull origin main
           cd Server/food-ordering-system
           echo "$DOTENV_FILE" > .env
