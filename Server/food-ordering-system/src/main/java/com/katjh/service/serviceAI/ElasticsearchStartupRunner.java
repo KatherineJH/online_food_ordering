@@ -1,8 +1,9 @@
 package com.katjh.service.serviceAI;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -21,5 +22,4 @@ public class ElasticsearchStartupRunner {
             System.out.println("⚠️ Elasticsearch 연결 실패 (무시됨): " + e.getMessage());
         }
     }
-
 }

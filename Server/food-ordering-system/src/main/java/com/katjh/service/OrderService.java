@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.katjh.dto.ReviewResponseDto;
 import com.katjh.model.Order;
-import com.katjh.model.Review;
 import com.katjh.model.User;
 import com.katjh.request.OrderRequest;
 

@@ -40,8 +40,7 @@ public class User {
 
     // @ElementCollection: @OneToMany와 달리 별도의 엔티티로 관리되지 않고, 단순히 컬렉션으로 저장되기를 원할 때.
     // RestaurantDto와 같은 Embeddable 객체가 다른 테이블에 저장되는 것이 아니라, User(부모 엔티티)에 저장된다.
-    @ElementCollection
-    private List<RestaurantDto> favorites = new ArrayList<>();
+    @ElementCollection private List<RestaurantDto> favorites = new ArrayList<>();
 
     // one user can have multiple addresses
     // CascadeType.ALL: 해당 User가 삭제될 때, 연관된 Address 엔티티도 삭제된다.

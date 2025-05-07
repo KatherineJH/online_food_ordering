@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.katjh.dto.ReviewResponseDto;
 import org.springframework.stereotype.Service;
 
+import com.katjh.dto.ReviewResponseDto;
 import com.katjh.model.*;
 import com.katjh.repository.*;
 import com.katjh.request.OrderRequest;
@@ -144,8 +144,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ReviewResponseDto getOrderReview(Long reviewId, User user) throws Exception {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new Exception("해당 리뷰를 찾을 수 없습니다."));
+        Review review =
+                reviewRepository
+                        .findById(reviewId)
+                        .orElseThrow(() -> new Exception("해당 리뷰를 찾을 수 없습니다."));
 
         if (!review.getUser().getId().equals(user.getId())) {
             throw new Exception("접근 권한이 없습니다.");

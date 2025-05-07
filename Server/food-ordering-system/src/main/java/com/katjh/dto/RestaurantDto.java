@@ -3,6 +3,7 @@ package com.katjh.dto;
 import java.util.List;
 
 import com.katjh.model.Restaurant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Data;

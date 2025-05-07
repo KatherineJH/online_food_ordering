@@ -137,7 +137,7 @@ export const updateRestaurant = ({ restaurantId, restaurantData, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       dispatch({ type: UPDATE_RESTAURANTS_SUCCESS, payload: res.data });
     } catch (error) {
@@ -175,7 +175,7 @@ export const updateRestaurantStatus = ({ restaurantId, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("updateRestaurantStatus", res.data);
       dispatch({ type: UPDATE_RESTAURANTS_STATUS_SUCCESS, payload: res.data });
@@ -197,7 +197,7 @@ export const createEventAction = ({ data, jwt, restaurantId }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("createEvent", res.data);
       dispatch({ type: CREATE_RESTAURANTS_EVENTS_SUCCESS, payload: res.data });
@@ -254,7 +254,7 @@ export const getRestaurantEvents = ({ restaurantId, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("get restaurants Events", res.data);
       dispatch({ type: GET_RESTAURANTS_EVENTS_SUCCESS, payload: res.data });
@@ -270,7 +270,7 @@ export const getVisitsRestaurantEvents = ({ restaurantId }) => {
     dispatch({ type: GET_RESTAURANTS_EVENTS_REQUEST });
     try {
       const res = await api.get(
-        `/api/restaurant/visitor/events/${restaurantId}`
+        `/api/restaurant/visitor/events/${restaurantId}`,
       );
       console.log("get restaurants Events", res.data);
       dispatch({ type: GET_RESTAURANTS_EVENTS_SUCCESS, payload: res.data });
@@ -296,7 +296,7 @@ export const createCategoryAction = ({ reqData, jwt }) => {
       // 에러 로그를 좀 더 구체적으로 출력
       console.error(
         "Error creating category:",
-        error.response || error.message || error
+        error.response || error.message || error,
       );
       dispatch({ type: CREATE_CATEGORY_FAILURE, payload: error });
     }

@@ -14,7 +14,7 @@ public class ElasticIndexCreator {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void createIndexManually() {
-        String url = baseUrl+":9200/restaurants";
+        String url = baseUrl + ":9200/restaurants";
 
         // 인덱스 존재 여부 확인
         try {
@@ -28,7 +28,8 @@ public class ElasticIndexCreator {
             System.out.println("ℹ️ restaurants 인덱스가 존재하지 않아서 생성을 시도합니다.");
         }
 
-        String payload = """
+        String payload =
+                """
         {
           "settings": {
             "analysis": {

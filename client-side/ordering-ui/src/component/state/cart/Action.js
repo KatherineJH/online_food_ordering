@@ -123,7 +123,7 @@ export const clearCartAction = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
           },
-        }
+        },
       );
 
       dispatch({ type: CLEARE_CART_SUCCESS, payload: data });
