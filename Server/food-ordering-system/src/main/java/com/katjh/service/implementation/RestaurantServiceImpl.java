@@ -161,17 +161,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<RestaurantDto> getFavoriteRestaurants(User user) {
         List<RestaurantDto> rawFavorites = user.getFavorites();
 
-        return rawFavorites.stream().map(dto -> {
-            if (dto.getName() == null || dto.getOpen() == null) {
-                try {
-                    Restaurant restaurant = findRestaurantById(dto.getId());
-                    if (dto.getName() == null) dto.setName(restaurant.getName());
-                    if (dto.getOpen() == null) dto.setOpen(restaurant.isOpen());
-                } catch (Exception e) {
-                    throw new RuntimeException("레스토랑 정보 조회 실패 (id=" + dto.getId() + ")", e);
-                }
-            }
-            return dto;
-        }).toList();
+        return rawFavorites.stream()
+                .map(
+                        dto -> {
+                            if (dto.getName() == null || dto.getOpen() == null) {
+                                try {
+                                    Restaurant restaurant = findRestaurantById(dto.getId());
+                                    if (dto.getName() == null) dto.setName(restaurant.getName());
+                                    if (dto.getOpen() == null) dto.setOpen(restaurant.isOpen());
+                                } catch (Exception e) {
+                                    throw new RuntimeException(
+                                            "레스토랑 정보 조회 실패 (id=" + dto.getId() + ")", e);
+                                }
+                            }
+                            return dto;
+                        })
+                .toList();
     }
 }

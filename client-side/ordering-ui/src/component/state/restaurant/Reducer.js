@@ -78,10 +78,10 @@ const restaurantReducer = (state = initialState, action) => {
         error: null,
         loading: false,
         restaurants: state.restaurants.filter(
-          (item) => item.id !== action.payload
+          (item) => item.id !== action.payload,
         ),
         usersRestaurant: state.usersRestaurant.filter(
-          (item) => item.id !== action.payload
+          (item) => item.id !== action.payload,
         ),
       };
     case actionType.CREATE_RESTAURANTS_EVENTS_SUCCESS:
@@ -109,7 +109,7 @@ const restaurantReducer = (state = initialState, action) => {
         loading: false,
         events: state.events.filter((item) => item.id !== action.payload),
         restaurantsEvents: state.restaurantsEvents.filter(
-          (item) => item !== action.payload
+          (item) => item !== action.payload,
         ),
       };
     case actionType.CREATE_CATEGORY_SUCCESS:

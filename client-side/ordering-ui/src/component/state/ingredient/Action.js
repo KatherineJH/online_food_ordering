@@ -16,7 +16,7 @@ export const getIngredientsOfRestaurant = ({ id, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("get all ingredients ", response.data);
       dispatch({
@@ -80,7 +80,7 @@ export const getIngredientCategory = ({ id, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("get ingredients category", response.data);
       dispatch({
@@ -103,7 +103,7 @@ export const updateStockOfIngredient = ({ id, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       dispatch({
         type: UPDATE_STOCK,

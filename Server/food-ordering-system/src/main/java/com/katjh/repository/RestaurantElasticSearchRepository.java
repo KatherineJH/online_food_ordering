@@ -1,8 +1,8 @@
-//package com.katjh.repository;
+// package com.katjh.repository;
 //
-//import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+// import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 //
-//import com.katjh.model.RestaurantDocument;
+// import com.katjh.model.RestaurantDocument;
 //
-//public interface RestaurantElasticSearchRepository
+// public interface RestaurantElasticSearchRepository
 //        extends ElasticsearchRepository<RestaurantDocument, Long> {}

@@ -20,7 +20,7 @@ export const updateOrderStatus = ({ orderId, orderStatus, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
 
       const updatedOrder = response.data;
@@ -50,7 +50,7 @@ export const fetchRestaurantsOrder = ({ restaurantId, orderStatus, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
 
       const orders = data;

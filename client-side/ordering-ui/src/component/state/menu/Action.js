@@ -61,7 +61,7 @@ export const getMenuItemsByRestaurantId = (reqData) => {
           headers: {
             Authorization: `Bearer ${reqData.jwt}`,
           },
-        }
+        },
       );
       console.log("menu item by restaurants ", data);
       dispatch({
@@ -126,7 +126,7 @@ export const updateMenuItemsAvailability = ({ foodId, jwt }) => {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       console.log("update menuItems Availability ", data);
       dispatch({ type: UPDATE_MENU_ITEMS_AVAILABILITY_SUCCESS, payload: data });

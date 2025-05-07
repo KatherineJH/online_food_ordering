@@ -39,7 +39,7 @@ public class AppConfig {
                                         .requestMatchers(
                                                 "/api/auth/**",
                                                 "/api/restaurant/**",
-                                                "/api/search/**") 
+                                                "/api/search/**")
                                         .permitAll()
                                         .requestMatchers("/api/**")
                                         .authenticated()

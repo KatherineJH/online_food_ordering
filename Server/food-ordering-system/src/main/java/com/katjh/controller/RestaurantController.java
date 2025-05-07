@@ -45,9 +45,9 @@ public class RestaurantController {
     // 비회원도 조회 할 수 있도록 수정
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> findRestaurantById(
-//            @RequestHeader("Authorization") String token,
+            //            @RequestHeader("Authorization") String token,
             @PathVariable Long id) throws Exception {
-//        User user = userService.findUserByJwtToken(token);
+        //        User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.findRestaurantById(id);
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }

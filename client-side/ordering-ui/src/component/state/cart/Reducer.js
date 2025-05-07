@@ -34,7 +34,7 @@ const cartReducer = (state = initialState, action) => {
       const updatedItems = [action.payload, ...state.cartItems];
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.totalPrice,
-        0
+        0,
       );
       return {
         ...state,
@@ -50,11 +50,11 @@ const cartReducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_CARTITEM_SUCCESS: {
       const updatedItems = state.cartItems.map((item) =>
-        item.id === action.payload.id ? action.payload : item
+        item.id === action.payload.id ? action.payload : item,
       );
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.totalPrice,
-        0
+        0,
       );
       return {
         ...state,
@@ -70,11 +70,11 @@ const cartReducer = (state = initialState, action) => {
 
     case actionTypes.REMOVE_CARTITEM_SUCCESS: {
       const updatedItems = state.cartItems.filter(
-        (item) => item.id !== action.payload
+        (item) => item.id !== action.payload,
       );
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.totalPrice,
-        0
+        0,
       );
       return {
         ...state,

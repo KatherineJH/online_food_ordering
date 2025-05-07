@@ -18,10 +18,7 @@ import {
 export const registerUser = (reqData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   try {
-    const { data } = await api.post(
-      `/api/auth/signup`,
-      reqData.userData
-    );
+    const { data } = await api.post(`/api/auth/signup`, reqData.userData);
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
     if (data.role === "ROLE_RESTAURANT_OWNER") {
       reqData.navigate("/admin/restaurant"); // navigate를 파라미터로 전달받아 사용
@@ -39,10 +36,7 @@ export const registerUser = (reqData) => async (dispatch) => {
 export const loginUser = (reqData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
-    const { data } = await api.post(
-      `/api/auth/signin`,
-      reqData.userData
-    );
+    const { data } = await api.post(`/api/auth/signin`, reqData.userData);
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
     if (data.role === "ROLE_RESTAURANT_OWNER") {
       reqData.navigate("/admin/restaurant");
@@ -86,7 +80,7 @@ export const addToFavorite =
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-        }
+        },
       );
       dispatch({ type: ADD_TO_FAVORITE_SUCCESS, payload: data });
       console.log("added to favorite successfully", data);
