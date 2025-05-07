@@ -11,15 +11,22 @@ jobs:
     steps:
     - name: SSH(원격 접속)로 EC2에 접속하기
       uses: appleboy/ssh-action@v1.0.3
+      env:
+        DOTENV_FILE: ${{secrets.DOTENV_FILE}}
       with:
         host: ${{secrets.EC2_HOST}}
         username: ${{secrets.EC2_USERNAME}}
         key: ${{secrets.EC2_PRIVATE_KEY}}
+        envs: DOTENV_FILE
         script_stop: true
         script: |
           cd /home/ubuntu/online_food_ordering
           git pull origin main
           cd Server/food-ordering-system
+          echo "$DOTENV_FILE" > .env
+          set -a
+          source .env
+          set +a
           ./gradlew spotlessApply
           ./gradlew clean build -x test
           sudo fuser -k -n tcp 5454 || true
