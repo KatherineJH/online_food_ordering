@@ -20,7 +20,7 @@ jobs:
           cd /home/ubuntu/online_food_ordering
           git pull origin main
           cd Server/food-ordering-system
-          ./gradelw spotlessApply
+          ./gradlew spotlessApply
           ./gradlew clean build -x test
           sudo fuser -k -n tcp 5454 || true
           nohup java -jar build/libs/*SNAPSHOT.war > ./output.log 2>&1 &
