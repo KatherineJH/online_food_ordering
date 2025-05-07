@@ -28,6 +28,7 @@ jobs:
           set -a
           source .env
           set +a
+          chmod +x gradlew     # ✅ 권한 추가!
           ./gradlew spotlessApply
           ./gradlew clean build -x test
           sudo fuser -k -n tcp 5454 || true
