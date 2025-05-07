@@ -46,7 +46,7 @@ const RankedRestaurant = () => {
         // "http://localhost:5000/rank-restaurants",
         // // ✅ 수정된 방식 (NGINX 통해 접근)
         // "http://localhost:8080/flask/rank-restaurants",
-        `${import.meta.env.VITE_SERVER_URL}:5000/rank-restaurants`,
+        `${import.meta.env.VITE_SERVER_URL}/rank-restaurants`,
         payload
       );
       setRankedData(response.data.restaurant_ranking);

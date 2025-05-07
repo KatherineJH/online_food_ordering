@@ -6,7 +6,7 @@ import axios from "axios";
 // export const API_URL = "http://localhost:8080/"; // ✅ nginx로 통합하여 처리하는 경우
 
 export const api = axios.create({
-  baseURL: `${import.meta.env.VITE_SERVER_URL}:5454`,
+  baseURL: `${import.meta.env.VITE_SERVER_URL}`,
   headers: {
     "Content-Type": "application/json",
   },
