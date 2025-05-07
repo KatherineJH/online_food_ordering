@@ -14,7 +14,7 @@ const PredictSample = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-         `${import.meta.env.VITE_SERVER_URL}:5000/predict/test`, // 테스트 전용 엔드포인트
+         `${import.meta.env.VITE_SERVER_URL}/predict/test`, // 테스트 전용 엔드포인트
         {
           review,
         }

@@ -12,10 +12,10 @@ const TopWords = () => {
       try {
         // ❌ 로컬 개발 방식 (프론트에서 Flask를 직접 접근)
         const topResponse = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}:5000/top-words`,
+          `${import.meta.env.VITE_SERVER_URL}/top-words`,
         );
         const worstResponse = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}:5000/worst-words`,
+          `${import.meta.env.VITE_SERVER_URL}/worst-words`,
         );
         // // ✅ 수정된 방식 (NGINX 통해 접근)
         // const topResponse = await axios.get("http://localhost:8080/flask/top-words");
