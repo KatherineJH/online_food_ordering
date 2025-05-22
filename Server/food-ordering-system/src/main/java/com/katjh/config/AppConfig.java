@@ -60,7 +60,7 @@ public class AppConfig {
                         List.of(
                                 baseUrl + ":5173", // React
                                 baseUrl + ":8080", // Front via Nginx
-                                "https://kat-delivery.netlify.app/"));
+                                "https://kat-delivery.netlify.app"));
                 corsConfig.setAllowedMethods(Collections.singletonList("*"));
                 corsConfig.setAllowCredentials(true);
                 corsConfig.setAllowedHeaders(Collections.singletonList("*"));
